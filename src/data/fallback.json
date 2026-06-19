@@ -1,0 +1,36 @@
+{
+  "profile": {
+    "id": 1,
+    "name": "Mohammad Tauqueer",
+    "title": "Software Engineer",
+    "bio": "Yo, I'm Tauqueer — a CS undergrad at Scaler & BITS Pilani, based in Bangalore. I build full-stack tools, mess with shells in Java, and ship stuff like Staygrad and meet-bot. When I'm not coding, you'll find me behind a camera or hanging with OSC and Reinforce Club.",
+    "location": "Bangalore, Karnataka",
+    "email": "tauqueer655@gmail.com",
+    "resume_url": "",
+    "interests": ["Cinematography", "OSC (Open Source Club)", "Reinforce Club (Member)"]
+  },
+  "social": [
+    { "id": 1, "platform": "github", "url": "https://github.com/m-tauqueer", "label": "GitHub", "sort_order": 1 },
+    { "id": 2, "platform": "linkedin", "url": "https://www.linkedin.com/in/mohammad-tauqueer-693a30201/", "label": "LinkedIn", "sort_order": 2 },
+    { "id": 3, "platform": "instagram", "url": "https://www.instagram.com/rather_tauqueer/", "label": "Instagram", "sort_order": 3 },
+    { "id": 4, "platform": "twitter", "url": "", "label": "Twitter", "sort_order": 4 }
+  ],
+  "skills": [
+    { "id": 1, "category": "Languages", "items": ["TypeScript", "JavaScript", "Java", "Python", "C++", "HTML/CSS"], "sort_order": 1 },
+    { "id": 2, "category": "Frontend", "items": ["React", "Tailwind CSS", "Vite"], "sort_order": 2 },
+    { "id": 3, "category": "Tools", "items": ["Git/GitHub", "Docker"], "sort_order": 3 }
+  ],
+  "education": [
+    { "id": 1, "degree": "Bachelor's in Computer Science", "school": "Scaler School of Technology", "duration": "Aug 2025 - Jul 2029", "description": "Currently pursuing my primary CS degree with focus on practical software development, algorithms, and modern technologies.", "sort_order": 1 },
+    { "id": 2, "degree": "Bachelor's in Computer Science", "school": "BITS Pilani", "duration": "Aug 2025 - Jul 2029", "description": "Pursuing a parallel degree to strengthen my theoretical foundation and expand my academic credentials in computer science.", "sort_order": 2 },
+    { "id": 3, "degree": "12th Grade (PCM)", "school": "Luthra Higher Secondary School", "duration": "Completed 2025", "description": "Completed higher secondary education with Science stream, building foundation in Mathematics and Physics.", "sort_order": 3 },
+    { "id": 4, "degree": "10th Grade", "school": "Crescent Public School", "duration": "Completed 2023", "description": "96.8% - Outstanding Academic Performance", "sort_order": 4 }
+  ],
+  "projects": [
+    { "id": 1, "slug": "meet-bot", "name": "meet-bot", "description": "TypeScript meeting assistant — captures live audio, queues jobs, and processes transcripts with AI.", "stack": ["TypeScript"], "github_url": "https://github.com/m-tauqueer/meet-bot", "demo_url": "", "featured": true, "sort_order": 1 },
+    { "id": 2, "slug": "staygrad", "name": "Staygrad", "description": "Student-focused platform to discover, compare, and book verified hostels and PG accommodations.", "stack": ["JavaScript"], "github_url": "https://github.com/m-tauqueer/staygrad", "demo_url": "", "featured": true, "sort_order": 2 },
+    { "id": 3, "slug": "shell", "name": "CodeCrafters Shell", "description": "Building a Unix shell in Java (CodeCrafters challenge).", "stack": ["Java"], "github_url": "https://github.com/m-tauqueer/codecrafters-shell-java", "demo_url": "", "featured": true, "sort_order": 3 },
+    { "id": 4, "slug": "tracker", "name": "Crypto Price Tracker", "description": "A web application that displays real-time cryptocurrency prices with interactive charts and price history for top 10 cryptocurrencies.", "stack": ["HTML", "CSS", "JavaScript"], "github_url": "https://github.com/m-tauqueer/tracker", "demo_url": "", "featured": false, "sort_order": 4 },
+    { "id": 5, "slug": "survivals-edge", "name": "Survivals Edge", "description": "A voxel-based survival island created during a hackathon with custom terrain, trees, and a house.", "stack": ["GDScript", "Godot"], "github_url": "https://github.com/m-tauqueer/Survivals_edge", "demo_url": "", "featured": false, "sort_order": 5 }
+  ]
+}

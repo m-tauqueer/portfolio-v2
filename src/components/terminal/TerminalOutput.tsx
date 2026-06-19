@@ -5,17 +5,24 @@ import { TerminalLineComponent } from './TerminalLine'
 
 interface TerminalOutputProps {
   lines: TerminalLine[]
+  systemMessage?: string
 }
 
-export function TerminalOutput({ lines }: TerminalOutputProps) {
-  const bottomRef = useRef<HTMLDivElement>(null)
+export function TerminalOutput({ lines, systemMessage }: TerminalOutputProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [lines])
+    const el = containerRef.current
+    if (el) {
+      el.scrollTop = el.scrollHeight
+    }
+  }, [lines, systemMessage])
 
   return (
-    <div className="terminal-output">
+    <div ref={containerRef} className="terminal-output">
+      {systemMessage && (
+        <div className="system-line">{systemMessage}</div>
+      )}
       {lines.map((line, index) => (
         <motion.div
           key={line.id}
@@ -26,7 +33,6 @@ export function TerminalOutput({ lines }: TerminalOutputProps) {
           <TerminalLineComponent line={line} />
         </motion.div>
       ))}
-      <div ref={bottomRef} />
     </div>
   )
 }

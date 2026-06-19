@@ -114,6 +114,26 @@ INSERT INTO portfolio_education (degree, school, duration, description, sort_ord
   ('12th Grade (PCM)', 'Luthra Higher Secondary School', 'Completed 2025', 'Completed higher secondary education with Science stream, building foundation in Mathematics and Physics.', 3),
   ('10th Grade', 'Crescent Public School', 'Completed 2023', '96.8% - Outstanding Academic Performance', 4);
 
+-- Experience table (run if upgrading)
+CREATE TABLE IF NOT EXISTS portfolio_experience (
+  id          SERIAL PRIMARY KEY,
+  company     TEXT NOT NULL,
+  role        TEXT NOT NULL,
+  duration    TEXT NOT NULL,
+  description TEXT DEFAULT '',
+  sort_order  INT DEFAULT 0
+);
+
+ALTER TABLE portfolio_experience ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "public read experience" ON portfolio_experience;
+CREATE POLICY "public read experience" ON portfolio_experience FOR SELECT USING (true);
+
+-- Seed: Experience
+DELETE FROM portfolio_experience;
+INSERT INTO portfolio_experience (company, role, duration, description, sort_order) VALUES
+  ('Company TBD', 'Software Engineering Intern', '2026', 'Building and shipping features across the stack. Details coming soon.', 1),
+  ('Startup TBD', 'Developer Intern', '2025', 'Worked on product features and developer tooling. Details coming soon.', 2);
+
 -- Seed: Projects
 DELETE FROM portfolio_projects;
 INSERT INTO portfolio_projects (slug, name, description, stack, github_url, demo_url, featured, sort_order) VALUES

@@ -34,6 +34,15 @@ export interface Education {
   sort_order: number
 }
 
+export interface Experience {
+  id: number
+  company: string
+  role: string
+  duration: string
+  description: string
+  sort_order: number
+}
+
 export interface Project {
   id: number
   slug: string
@@ -51,5 +60,6 @@ export interface PortfolioData {
   social: SocialLink[]
   skills: Skill[]
   education: Education[]
+  experience: Experience[]
   projects: Project[]
 }

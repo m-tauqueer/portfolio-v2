@@ -127,7 +127,7 @@ export function AdminDashboard() {
     )
   }
 
-  const tabs = ['profile', 'social', 'skills', 'education', 'projects']
+  const tabs = ['profile', 'social', 'skills', 'education', 'experience', 'projects']
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
@@ -173,6 +173,9 @@ export function AdminDashboard() {
           )}
           {activeTab === 'education' && (
             <EducationForm education={data.education} onSave={(e) => save('education', e)} saving={saving} />
+          )}
+          {activeTab === 'experience' && (
+            <ExperienceForm experience={data.experience ?? []} onSave={(e) => save('experience', e)} saving={saving} />
           )}
           {activeTab === 'projects' && (
             <ProjectsForm projects={data.projects} onSave={(p) => save('projects', p)} saving={saving} />
@@ -318,6 +321,38 @@ function EducationForm({ education, onSave, saving }: { education: PortfolioData
         <button onClick={add} className="text-orange-400 text-sm">+ Add entry</button>
         <button onClick={() => onSave(rows)} disabled={saving} className="bg-orange-600 hover:bg-orange-500 disabled:opacity-50 px-4 py-2 rounded-lg text-sm ml-auto">
           {saving ? 'Saving...' : 'Save Education'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function ExperienceForm({ experience, onSave, saving }: { experience: PortfolioData['experience']; onSave: (e: PortfolioData['experience']) => void; saving: boolean }) {
+  const [rows, setRows] = useState(experience)
+
+  const update = (i: number, field: string, value: string) => {
+    const next = [...rows]
+    next[i] = { ...next[i], [field]: value }
+    setRows(next)
+  }
+
+  const add = () => setRows([...rows, { id: Date.now(), company: '', role: '', duration: '', description: '', sort_order: rows.length + 1 }])
+
+  return (
+    <div className="space-y-4">
+      <h2 className="text-lg font-semibold">Experience</h2>
+      {rows.map((row: PortfolioData['experience'][0], i: number) => (
+        <div key={row.id} className="border border-zinc-800 rounded-lg p-4 space-y-2">
+          <input placeholder="Company" value={row.company} onChange={(e) => update(i, 'company', e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
+          <input placeholder="Role" value={row.role} onChange={(e) => update(i, 'role', e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
+          <input placeholder="Duration" value={row.duration} onChange={(e) => update(i, 'duration', e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
+          <textarea placeholder="Description" value={row.description} onChange={(e) => update(i, 'description', e.target.value)} rows={2} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
+        </div>
+      ))}
+      <div className="flex gap-2">
+        <button onClick={add} className="text-orange-400 text-sm">+ Add experience</button>
+        <button onClick={() => onSave(rows)} disabled={saving} className="bg-orange-600 hover:bg-orange-500 disabled:opacity-50 px-4 py-2 rounded-lg text-sm ml-auto">
+          {saving ? 'Saving...' : 'Save Experience'}
         </button>
       </div>
     </div>

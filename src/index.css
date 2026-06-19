@@ -11,11 +11,15 @@ body,
 #root {
   height: 100%;
   width: 100%;
-  overflow: hidden;
 }
 
 body {
   font-family: "JetBrains Mono", monospace;
   background: #000;
   color: #00ff41;
+  overflow-x: hidden;
+}
+
+body.terminal-locked {
+  overflow: hidden;
 }

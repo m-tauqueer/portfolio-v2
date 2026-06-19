@@ -7,10 +7,12 @@
   --error: #ff4444;
   height: 100%;
   width: 100%;
+  min-height: 0;
   background: var(--bg);
   position: relative;
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .terminal-root::after {
@@ -32,7 +34,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin: 12px;
+  min-height: 0;
+  margin: 0;
   border: 1px solid var(--matrix-dim);
   border-radius: 8px;
   overflow: hidden;
@@ -76,7 +79,10 @@
 
 .terminal-output {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
+  overflow-anchor: none;
+  overscroll-behavior: contain;
   padding: 16px;
   font-size: 14px;
   line-height: 1.6;
@@ -156,4 +162,16 @@
 
 .success-line {
   color: var(--matrix-green);
+}
+
+.terminal-compact .terminal-window {
+  margin: 0;
+}
+
+.terminal-compact .terminal-output {
+  max-height: calc(45dvh - 160px);
+}
+
+.terminal-mode .terminal-root {
+  height: 100%;
 }

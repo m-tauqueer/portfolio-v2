@@ -39,6 +39,10 @@ async function seed() {
   const { error: eduError } = await supabase.from('portfolio_education').insert(data.education)
   if (eduError) console.error('Education error:', eduError.message)
 
+  await supabase.from('portfolio_experience').delete().neq('id', 0)
+  const { error: expError } = await supabase.from('portfolio_experience').insert(data.experience)
+  if (expError) console.error('Experience error:', expError.message)
+
   await supabase.from('portfolio_projects').delete().neq('id', 0)
   const { error: projectsError } = await supabase.from('portfolio_projects').insert(data.projects)
   if (projectsError) console.error('Projects error:', projectsError.message)

@@ -2,17 +2,20 @@ import { helpCommand } from './help'
 import { whoamiCommand, aboutCommand } from './about'
 import { educationCommand } from './education'
 import { skillsCommand } from './skills'
+import { experienceCommand } from './experience'
 import { projectsCommand, projectCommand } from './projects'
 import { contactCommand, socialCommand, resumeCommand } from './contact'
 import { neofetchCommand } from './neofetch'
 import { easterEggCommand } from './easter'
-import type { Command, CommandContext, TerminalLine } from './types'
+import type { Command, CommandContext } from './types'
+import type { CommandResult } from './result'
 
 export const COMMANDS: Command[] = [
   { name: 'help', aliases: ['?'], description: 'List commands', handler: helpCommand },
   { name: 'whoami', description: 'Quick intro', handler: whoamiCommand },
   { name: 'about', aliases: ['me'], description: 'Full bio', handler: aboutCommand },
   { name: 'education', aliases: ['edu'], description: 'Education', handler: educationCommand },
+  { name: 'experience', aliases: ['exp'], description: 'Work experience', handler: experienceCommand },
   { name: 'skills', aliases: ['stack'], description: 'Tech stack', handler: skillsCommand },
   { name: 'projects', aliases: ['ls'], description: 'List projects', handler: projectsCommand },
   { name: 'project', aliases: ['open'], description: 'Project details', handler: projectCommand },
@@ -24,6 +27,21 @@ export const COMMANDS: Command[] = [
 
 const EASTER_COMMANDS = ['sudo', 'vim', 'nano', 'rm', 'cowsay', 'fortune']
 
+const SCROLL_MAP: Record<string, string> = {
+  about: 'about',
+  me: 'about',
+  skills: 'about',
+  stack: 'about',
+  journey: 'journey',
+  education: 'journey',
+  edu: 'journey',
+  experience: 'journey',
+  exp: 'journey',
+  projects: 'projects',
+  ls: 'projects',
+  contact: 'contact',
+}
+
 export function parseInput(input: string): { command: string; args: string[]; flags: string[] } {
   const parts = input.trim().split(/\s+/)
   const command = parts[0]?.toLowerCase() ?? ''
@@ -33,19 +51,64 @@ export function parseInput(input: string): { command: string; args: string[]; fl
   return { command, args, flags }
 }
 
-export function executeCommand(input: string, portfolio: CommandContext['portfolio']): TerminalLine[] {
+export function executeCommand(input: string, portfolio: CommandContext['portfolio'], guiMode = false): CommandResult {
+  const trimmed = input.trim().toLowerCase()
+
+  if (trimmed === 'gui' || trimmed === 'open gui') {
+    return {
+      lines: [{
+        id: crypto.randomUUID(),
+        parts: [{ text: 'Opening GUI mode... scroll to explore ↓', className: 'text-[#ff8c00]' }],
+        type: 'success',
+      }],
+      sideEffect: { type: 'mode', mode: 'gui' },
+    }
+  }
+
+  if (trimmed === 'terminal' || trimmed === 'fullscreen') {
+    return {
+      lines: [{
+        id: crypto.randomUUID(),
+        parts: [{ text: 'Entering fullscreen terminal mode...', className: 'text-[#ff8c00]' }],
+        type: 'success',
+      }],
+      sideEffect: { type: 'mode', mode: 'terminal' },
+    }
+  }
+
   const { command, args, flags } = parseInput(input)
-  if (!command) return []
+  if (!command) return { lines: [] }
 
   const ctx: CommandContext = { args, flags, portfolio }
 
   if (EASTER_COMMANDS.includes(command) || command === 'sudo' || input.includes('rm -rf')) {
     const easterCtx: CommandContext = { args: [command, ...args], flags, portfolio }
     if (command === 'rm' && args.join(' ').includes('-rf')) {
-      return easterEggCommand({ args: ['rm -rf /'], flags, portfolio })
+      return { lines: easterEggCommand({ args: ['rm -rf /'], flags, portfolio }) }
     }
     const result = easterEggCommand(easterCtx)
-    if (result.length > 0) return result
+    if (result.length > 0) return { lines: result }
+  }
+
+  const scrollSection = SCROLL_MAP[command]
+  if (guiMode && scrollSection && !['project', 'open'].includes(command)) {
+    const matched = COMMANDS.find((c) => c.name === command || c.aliases?.includes(command))
+    if (matched && matched.name !== 'project') {
+      const lines = matched.name === 'projects' && flags.includes('--all')
+        ? projectsCommand({ ...ctx, flags: ['--all'] })
+        : matched.handler(ctx)
+      return {
+        lines: [
+          ...lines,
+          {
+            id: crypto.randomUUID(),
+            parts: [{ text: `↳ scrolling to ~/${scrollSection}`, className: 'text-[#008f11]' }],
+            type: 'system',
+          },
+        ],
+        sideEffect: { type: 'scroll', section: scrollSection },
+      }
+    }
   }
 
   const matched = COMMANDS.find(
@@ -53,28 +116,30 @@ export function executeCommand(input: string, portfolio: CommandContext['portfol
   )
 
   if (!matched) {
-    return [{
-      id: crypto.randomUUID(),
-      parts: [
-        { text: `command not found: ${command}. `, className: 'text-[#ff4444]' },
-        { text: "Type 'help' for available commands.", className: 'text-[#008f11]' },
-      ],
-      type: 'error',
-    }]
+    return {
+      lines: [{
+        id: crypto.randomUUID(),
+        parts: [
+          { text: `command not found: ${command}. `, className: 'text-[#ff4444]' },
+          { text: "Type 'help' for available commands.", className: 'text-[#008f11]' },
+        ],
+        type: 'error',
+      }],
+    }
   }
 
   if (matched.name === 'projects' && flags.includes('--all')) {
-    return projectsCommand({ ...ctx, flags: ['--all'] })
+    return { lines: projectsCommand({ ...ctx, flags: ['--all'] }) }
   }
 
-  return matched.handler(ctx)
+  return { lines: matched.handler(ctx) }
 }
 
 export function getAutocomplete(input: string): string | null {
   const { command } = parseInput(input)
   if (!command) return null
 
-  const all = COMMANDS.flatMap((c) => [c.name, ...(c.aliases ?? [])])
+  const all = [...COMMANDS.flatMap((c) => [c.name, ...(c.aliases ?? [])]), 'gui', 'terminal', 'fullscreen']
   const match = all.find((c) => c.startsWith(command) && c !== command)
   return match ?? null
 }

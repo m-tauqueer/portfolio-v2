@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import type { TerminalLine } from '../commands/types'
 import type { PortfolioData } from '../types/portfolio'
 import { executeCommand, getAutocomplete } from '../commands'
+import type { CommandSideEffect } from '../commands/result'
 
 const PROMPT = 'tauqueer@portfolio:~$'
 
@@ -16,24 +17,33 @@ function makeInputLine(command: string): TerminalLine {
   }
 }
 
-export function useTerminal(portfolio: PortfolioData | null) {
+export function useTerminal(
+  portfolio: PortfolioData | null,
+  guiMode = false,
+  onSideEffect?: (effect: CommandSideEffect) => void
+) {
   const [lines, setLines] = useState<TerminalLine[]>([])
   const [input, setInput] = useState('')
   const [history, setHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
 
-  const submitCommand = useCallback(() => {
-    const trimmed = input.trim()
+  const processCommand = useCallback((trimmed: string) => {
     if (!trimmed || !portfolio) return
 
     const inputLine = makeInputLine(trimmed)
-    const outputLines = executeCommand(trimmed, portfolio)
+    const { lines: outputLines, sideEffect } = executeCommand(trimmed, portfolio, guiMode)
 
     setLines((prev) => [...prev, inputLine, ...outputLines])
     setHistory((prev) => [...prev, trimmed])
     setHistoryIndex(-1)
     setInput('')
-  }, [input, portfolio])
+
+    if (sideEffect) onSideEffect?.(sideEffect)
+  }, [portfolio, guiMode, onSideEffect])
+
+  const submitCommand = useCallback(() => {
+    processCommand(input.trim())
+  }, [input, processCommand])
 
   const clear = useCallback(() => setLines([]), [])
 
@@ -75,13 +85,6 @@ export function useTerminal(portfolio: PortfolioData | null) {
 
   const runCommand = useCallback((cmd: string) => {
     if (!portfolio) return
-    setInput(cmd)
-    const inputLine = makeInputLine(cmd)
-    const outputLines = cmd === 'clear'
-      ? []
-      : cmd === 'history'
-        ? []
-        : executeCommand(cmd, portfolio)
 
     if (cmd === 'clear') {
       setLines([])
@@ -95,10 +98,8 @@ export function useTerminal(portfolio: PortfolioData | null) {
       return
     }
 
-    setLines((prev) => [...prev, inputLine, ...outputLines])
-    setHistory((prev) => [...prev, cmd])
-    setInput('')
-  }, [portfolio, showHistory])
+    processCommand(cmd)
+  }, [portfolio, showHistory, processCommand])
 
   return {
     lines,

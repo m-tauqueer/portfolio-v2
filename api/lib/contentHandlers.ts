@@ -21,17 +21,23 @@ export async function handleGet(supabase: any, section: string) {
       if (error) throw error
       return data
     }
+    case 'experience': {
+      const { data, error } = await supabase.from('portfolio_experience').select('*').order('sort_order')
+      if (error) throw error
+      return data
+    }
     case 'projects': {
       const { data, error } = await supabase.from('portfolio_projects').select('*').order('sort_order')
       if (error) throw error
       return data
     }
     case 'all': {
-      const [profile, social, skills, education, projects] = await Promise.all([
+      const [profile, social, skills, education, experience, projects] = await Promise.all([
         supabase.from('portfolio_profile').select('*').eq('id', 1).single(),
         supabase.from('portfolio_social').select('*').order('sort_order'),
         supabase.from('portfolio_skills').select('*').order('sort_order'),
         supabase.from('portfolio_education').select('*').order('sort_order'),
+        supabase.from('portfolio_experience').select('*').order('sort_order'),
         supabase.from('portfolio_projects').select('*').order('sort_order'),
       ])
       return {
@@ -39,6 +45,7 @@ export async function handleGet(supabase: any, section: string) {
         social: social.data,
         skills: skills.data,
         education: education.data,
+        experience: experience.data ?? [],
         projects: projects.data,
       }
     }
@@ -77,6 +84,13 @@ export async function handlePut(supabase: any, section: string, body: unknown) {
       const rows = body as Array<Record<string, unknown>>
       await supabase.from('portfolio_education').delete().neq('id', 0)
       const { error } = await supabase.from('portfolio_education').insert(rows)
+      if (error) throw error
+      return { ok: true }
+    }
+    case 'experience': {
+      const rows = body as Array<Record<string, unknown>>
+      await supabase.from('portfolio_experience').delete().neq('id', 0)
+      const { error } = await supabase.from('portfolio_experience').insert(rows)
       if (error) throw error
       return { ok: true }
     }

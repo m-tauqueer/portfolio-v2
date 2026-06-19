@@ -26,6 +26,10 @@
     { "id": 3, "degree": "12th Grade (PCM)", "school": "Luthra Higher Secondary School", "duration": "Completed 2025", "description": "Completed higher secondary education with Science stream, building foundation in Mathematics and Physics.", "sort_order": 3 },
     { "id": 4, "degree": "10th Grade", "school": "Crescent Public School", "duration": "Completed 2023", "description": "96.8% - Outstanding Academic Performance", "sort_order": 4 }
   ],
+  "experience": [
+    { "id": 1, "company": "Company TBD", "role": "Software Engineering Intern", "duration": "2026", "description": "Building and shipping features across the stack. Details coming soon.", "sort_order": 1 },
+    { "id": 2, "company": "Startup TBD", "role": "Developer Intern", "duration": "2025", "description": "Worked on product features and developer tooling. Details coming soon.", "sort_order": 2 }
+  ],
   "projects": [
     { "id": 1, "slug": "meet-bot", "name": "meet-bot", "description": "TypeScript meeting assistant — captures live audio, queues jobs, and processes transcripts with AI.", "stack": ["TypeScript"], "github_url": "https://github.com/m-tauqueer/meet-bot", "demo_url": "", "featured": true, "sort_order": 1 },
     { "id": 2, "slug": "staygrad", "name": "Staygrad", "description": "Student-focused platform to discover, compare, and book verified hostels and PG accommodations.", "stack": ["JavaScript"], "github_url": "https://github.com/m-tauqueer/staygrad", "demo_url": "", "featured": true, "sort_order": 2 },

@@ -8,11 +8,12 @@ export async function fetchPortfolio(): Promise<{ data: PortfolioData; source: '
   }
 
   try {
-    const [profileRes, socialRes, skillsRes, educationRes, projectsRes] = await Promise.all([
+    const [profileRes, socialRes, skillsRes, educationRes, experienceRes, projectsRes] = await Promise.all([
       supabase.from('portfolio_profile').select('*').eq('id', 1).single(),
       supabase.from('portfolio_social').select('*').order('sort_order'),
       supabase.from('portfolio_skills').select('*').order('sort_order'),
       supabase.from('portfolio_education').select('*').order('sort_order'),
+      supabase.from('portfolio_experience').select('*').order('sort_order'),
       supabase.from('portfolio_projects').select('*').order('sort_order'),
     ])
 
@@ -26,6 +27,7 @@ export async function fetchPortfolio(): Promise<{ data: PortfolioData; source: '
         social: socialRes.data ?? [],
         skills: skillsRes.data ?? [],
         education: educationRes.data ?? [],
+        experience: experienceRes.data ?? [],
         projects: projectsRes.data ?? [],
       },
       source: 'supabase',

@@ -1,0 +1,51 @@
+/* Corpo Architect × Netrunner — design tokens (Phase 1+) */
+
+:root {
+  --bg-void: #040308;
+  --bg-deep: #0a0812;
+  --bg-surface: #0f0d16;
+  --bg-glass: rgba(12, 14, 22, 0.78);
+  --bg-hud: rgba(8, 12, 20, 0.92);
+
+  --accent-orange: #ff6b1a;
+  --accent-orange-glow: #ff8c42;
+  --accent-orange-dim: #cc4a00;
+  --accent-cyan: #22d3ee;
+  --accent-cyan-dim: #0891b2;
+  --accent-magenta: #e879f9;
+  --accent-violet: #8b5cf6;
+
+  --accent-primary: var(--accent-orange);
+  --accent-primary-glow: var(--accent-orange-glow);
+  --accent-hud: var(--accent-cyan);
+
+  --term-green: #4ade80;
+  --term-green-bright: #6ee7a0;
+  --term-dim: #94a3b8;
+
+  --text-primary: #f0ebe3;
+  --text-secondary: #d1d5db;
+  --text-muted: #9ca3af;
+  --text-dim: #6b7280;
+
+  --border-glass: rgba(34, 211, 238, 0.12);
+  --border-glow: rgba(255, 107, 26, 0.4);
+  --border-hud: rgba(34, 211, 238, 0.28);
+
+  --font-display: 'Orbitron', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --error: #f87171;
+
+  --intro-duration: 3.2s;
+  --z-intro: 10000;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}

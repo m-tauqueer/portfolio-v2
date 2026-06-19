@@ -1,35 +1,9 @@
 @import "tailwindcss";
+@import "./styles/tokens.css";
 
 :root {
-  /* Orange-led dark cyberpunk */
-  --bg-deep: #08060c;
-  --bg-surface: #0f0d14;
-  --bg-glass: rgba(18, 14, 24, 0.72);
-
-  --accent-orange: #ff6b1a;
-  --accent-orange-glow: #ff8c42;
-  --accent-orange-dim: #cc4a00;
-  --accent-cyan: #22d3ee;
-  --accent-magenta: #e879f9;
-  --accent-violet: #8b5cf6;
-
-  --accent-primary: var(--accent-orange);
-  --accent-primary-glow: var(--accent-orange-glow);
+  /* Legacy aliases → tokens (Phase 1) */
   --accent-primary-dim: var(--accent-orange-dim);
-
-  /* Terminal-only greens */
-  --term-green: #4ade80;
-  --term-green-bright: #39ff88;
-  --term-dim: #166534;
-
-  --text-primary: #f0e6d8;
-  --text-muted: #9ca3af;
-  --text-dim: #6b7280;
-
-  --border-glass: rgba(255, 107, 26, 0.14);
-  --border-glow: rgba(255, 107, 26, 0.38);
-
-  --error: #f87171;
 }
 
 * {
@@ -46,8 +20,8 @@ body,
 }
 
 body {
-  font-family: "JetBrains Mono", monospace;
-  background: var(--bg-deep);
+  font-family: var(--font-mono);
+  background: var(--bg-void);
   color: var(--text-primary);
   overflow-x: hidden;
 }
@@ -57,7 +31,7 @@ body.terminal-locked {
 }
 
 .t-green { color: var(--term-green); }
-.t-dim { color: var(--term-dim); }
+.t-dim { color: var(--text-muted); }
 .t-orange { color: var(--accent-orange); }
 .t-cyan { color: var(--accent-cyan); }
 .t-error { color: var(--error); }

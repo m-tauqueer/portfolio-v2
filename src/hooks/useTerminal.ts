@@ -87,7 +87,13 @@ export function useTerminal(
     if (!portfolio) return
 
     if (cmd === 'clear') {
-      setLines([])
+      setLines([
+        {
+          id: crypto.randomUUID(),
+          parts: [{ text: 'session cleared — type help for available commands', className: 't-dim' }],
+          type: 'system',
+        },
+      ])
       setInput('')
       return
     }

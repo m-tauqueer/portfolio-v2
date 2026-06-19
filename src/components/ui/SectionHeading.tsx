@@ -1,5 +1,7 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { useGSAP } from '@gsap/react'
 import { GlitchText } from './GlitchText'
+import { gsap, isReducedMotion } from '../../lib/gsap'
 
 interface SectionHeadingProps {
   title: string
@@ -7,34 +9,40 @@ interface SectionHeadingProps {
 }
 
 export function SectionHeading({ title, subtitle }: SectionHeadingProps) {
-  const letters = title.split('')
+  const ref = useRef<HTMLDivElement>(null)
+
+  useGSAP(
+    () => {
+      if (isReducedMotion()) return
+
+      gsap.fromTo(
+        ref.current!.querySelectorAll('.section-reveal'),
+        { opacity: 0, y: 32 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.12,
+          ease: 'power3.out',
+          clearProps: 'transform',
+          scrollTrigger: {
+            trigger: ref.current,
+            start: 'top 88%',
+            once: true,
+          },
+        }
+      )
+    },
+    { scope: ref }
+  )
 
   return (
-    <div className="section-heading">
-      <h2 className="text-2xl md:text-3xl font-bold mb-2">
-        {letters.map((char, i) => (
-          <motion.span
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.04, duration: 0.3 }}
-            className="inline-block"
-          >
-            {char === ' ' ? '\u00A0' : char}
-          </motion.span>
-        ))}
-      </h2>
+    <div ref={ref} className="section-heading">
+      <h2 className="section-heading-title font-display section-reveal">{title}</h2>
       {subtitle && (
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="text-muted text-sm font-mono"
-        >
+        <p className="section-heading-sub section-reveal">
           <GlitchText intensity="low">{subtitle}</GlitchText>
-        </motion.p>
+        </p>
       )}
     </div>
   )

@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 const BOOT_LINES = [
-  '[ OK ] Initializing tauq.me shell v2.0',
-  '[ OK ] Loading Mohammad Tauqueer @ Bangalore',
-  '[ OK ] Neon uplink established — orange channel active',
-  "       Type 'help' or 'open gui' to explore",
+  '[ OK ] Initializing tauq.me — netrunner shell v3.0',
+  '[ OK ] Identity: Mohammad Tauqueer · Software Engineer · Bangalore',
+  '[ OK ] Metacognition uplink — Engram memory channel active',
+  '[ OK ] HUD online — cyan grid · orange auth · green output',
+  "       Type 'help' · 'projects' · 'open gui' to explore",
 ]
 
 interface BootSequenceProps {
@@ -32,7 +33,7 @@ export function BootSequence({ onComplete, loading }: BootSequenceProps) {
     return (
       <div className="terminal-output">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="system-line">
-          fetching profile from supabase...
+          [ .. ] fetching profile from supabase...
         </motion.div>
       </div>
     )
@@ -45,7 +46,7 @@ export function BootSequence({ onComplete, loading }: BootSequenceProps) {
           key={i}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="system-line"
+          className={line.startsWith('[ OK ]') ? 'boot-ok-line' : 'system-line'}
         >
           {line}
         </motion.div>

@@ -7,6 +7,7 @@ import { projectsCommand, projectCommand } from './projects'
 import { contactCommand, socialCommand, resumeCommand } from './contact'
 import { neofetchCommand } from './neofetch'
 import { easterEggCommand } from './easter'
+import { unknownCommandResponse } from './unknown'
 import type { Command, CommandContext } from './types'
 import type { CommandResult } from './result'
 
@@ -117,16 +118,7 @@ export function executeCommand(input: string, portfolio: CommandContext['portfol
   )
 
   if (!matched) {
-    return {
-      lines: [{
-        id: crypto.randomUUID(),
-        parts: [
-          { text: `command not found: ${command}. `, className: 't-error' },
-          { text: "Type 'help' for available commands.", className: 't-dim' },
-        ],
-        type: 'error',
-      }],
-    }
+    return { lines: unknownCommandResponse(command) }
   }
 
   if (matched.name === 'projects' && flags.includes('--all')) {

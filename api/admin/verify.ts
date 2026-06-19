@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { createAdminToken } from '../lib/auth.js'
+import { parseJsonBody } from '../lib/parseBody.js'
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -8,10 +9,10 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
 
   const password = process.env.ADMIN_PASSWORD
   if (!password) {
-    return res.status(500).json({ error: 'Admin password not configured' })
+    return res.status(500).json({ error: 'Admin password not configured on server' })
   }
 
-  const { password: attempt } = req.body as { password?: string }
+  const { password: attempt } = parseJsonBody<{ password?: string }>(req)
 
   if (!attempt || attempt !== password) {
     return res.status(401).json({ error: 'Invalid password' })

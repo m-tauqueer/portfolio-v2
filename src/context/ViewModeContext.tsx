@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react'
+import { getDefaultViewMode, type ViewMode } from '../lib/viewMode'
 
-export type ViewMode = 'terminal' | 'gui'
+export type { ViewMode }
 
 interface ViewModeContextValue {
   mode: ViewMode
@@ -13,7 +14,7 @@ interface ViewModeContextValue {
 const ViewModeContext = createContext<ViewModeContextValue | null>(null)
 
 export function ViewModeProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<ViewMode>('terminal')
+  const [mode, setMode] = useState<ViewMode>(getDefaultViewMode)
 
   const scrollToSection = useCallback((id: string) => {
     const el = document.getElementById(id)

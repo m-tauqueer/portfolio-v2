@@ -1,13 +1,6 @@
 import type { CommandContext, TerminalLine } from './types'
 
-const FORTUNES = [
-  'It works on my machine.',
-  'There are only two hard things in CS: cache invalidation and naming things.',
-  'First, solve the problem. Then, write the code.',
-  'The best error message is the one that never shows up.',
-  'Talk is cheap. Show me the code.',
-  'Programs must be written for people to read.',
-]
+import { pickRandomJoke } from './unknown'
 
 export function easterEggCommand(ctx: CommandContext): TerminalLine[] {
   const cmd = ctx.args[0] ?? ''
@@ -60,7 +53,7 @@ export function easterEggCommand(ctx: CommandContext): TerminalLine[] {
   }
 
   if (cmd === 'fortune') {
-    const quote = FORTUNES[Math.floor(Math.random() * FORTUNES.length)]
+    const quote = pickRandomJoke('fortune')
     return [{
       id: crypto.randomUUID(),
       parts: [{ text: quote, className: 't-green italic' }],

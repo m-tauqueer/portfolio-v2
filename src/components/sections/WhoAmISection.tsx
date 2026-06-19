@@ -1,78 +1,60 @@
-import { motion } from 'framer-motion'
+import { useRef, type ReactNode } from 'react'
+import { useGSAP } from '@gsap/react'
 import type { PortfolioData } from '../../types/portfolio'
-import { SectionHeading } from '../ui/SectionHeading'
+import { isMobileViewport } from '../../lib/viewMode'
+import { gsap, isReducedMotion } from '../../lib/gsap'
+import { AboutDetailsPanels } from './AboutDetailsPanels'
 
 interface WhoAmISectionProps {
   data: PortfolioData
-  onTerminalSlot?: (el: HTMLDivElement | null) => void
+  terminal?: ReactNode
 }
 
-export function WhoAmISection({ data, onTerminalSlot }: WhoAmISectionProps) {
+export function WhoAmISection({ data, terminal }: WhoAmISectionProps) {
   const { profile, skills } = data
-  const allSkills = skills.flatMap((s) => s.items)
+  const heroRef = useRef<HTMLDivElement>(null)
+  const locationShort = profile.location.split(',')[0]
+
+  useGSAP(
+    () => {
+      if (isReducedMotion()) return
+
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+
+      const slideX = isMobileViewport() ? 0 : 32
+
+      tl.from('.hero-eyebrow', { opacity: 0, y: 14, duration: 0.45 })
+        .from('.hero-title', { opacity: 0, y: 36, duration: 0.85 }, '-=0.15')
+        .from('.hero-name', { opacity: 0, y: 18, duration: 0.5 }, '-=0.5')
+        .from('.hero-panel', { opacity: 0, y: 28, duration: 0.55, stagger: 0.1 }, '-=0.1')
+        .from('.about-terminal-slot', { opacity: 0, x: slideX, duration: 0.7, clearProps: 'all' }, '-=0.35')
+    },
+    { scope: heroRef }
+  )
 
   return (
     <section id="about" className="page-section page-about">
-      <div className="about-hero-wrap">
-      <div className="page-split page-split--about">
-        <div className="page-split-left about-content">
-          <SectionHeading title="// Who I Am" subtitle={`${profile.title} · ${profile.location}`} />
+      <div className="about-hero-wrap" ref={heroRef}>
+        <div className="page-split page-split--about">
+          <div className="page-split-left about-content">
+            <p className="hero-eyebrow about-eyebrow">[ SYSTEM · ENGINEER.ONLINE ]</p>
 
-          <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="glass-panel about-bio-panel"
-          >
-            <p className="text-body leading-relaxed">{profile.bio}</p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {profile.interests.map((interest) => (
-                <span key={interest} className="interest-tag">{interest}</span>
-              ))}
+            <div className="about-hero-head">
+              <h1 className="hero-title font-display">{profile.title}</h1>
+              <p className="hero-name">
+                {profile.name} · {locationShort}
+              </p>
             </div>
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="glass-panel about-stack-panel"
-          >
-            <h3 className="text-accent font-mono text-sm mb-3">stack.init()</h3>
-            <div className="flex flex-wrap gap-2">
-              {allSkills.map((skill, i) => (
-                <motion.span
-                  key={skill}
-                  initial={{ opacity: 0, scale: 0.85 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.03 }}
-                  className="skill-tag"
-                >
-                  {skill}
-                </motion.span>
-              ))}
+            <div className="about-details-panels about-details-panels--desktop">
+              <AboutDetailsPanels profile={profile} skills={skills} />
             </div>
-            {skills.map((cat) => (
-              <div key={cat.id} className="mt-3">
-                <span className="text-cyan text-xs font-mono">{cat.category}: </span>
-                <span className="text-muted text-xs">{cat.items.join(' · ')}</span>
-              </div>
-            ))}
-          </motion.div>
+          </div>
+
+          <div className="page-split-right about-terminal-slot">
+            {terminal}
+          </div>
         </div>
-
-        <motion.div
-          className="page-split-right about-terminal-slot"
-          ref={onTerminalSlot}
-          initial={{ opacity: 0, x: 24 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-        />
-      </div>
       </div>
     </section>
   )

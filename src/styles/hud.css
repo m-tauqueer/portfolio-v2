@@ -1,0 +1,157 @@
+/* Corpo Architect × Netrunner — HUD chrome (Phase 4) */
+
+.hud-panel {
+  position: relative;
+  border-color: var(--border-hud) !important;
+  background: var(--bg-glass) !important;
+}
+
+.hud-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-orange), transparent 85%);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.hud-corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hud-corner--tl { top: 6px; left: 6px; border-top: 1px solid var(--accent-cyan); border-left: 1px solid var(--accent-cyan); }
+.hud-corner--tr { top: 6px; right: 6px; border-top: 1px solid var(--accent-orange); border-right: 1px solid var(--accent-orange); }
+.hud-corner--bl { bottom: 6px; left: 6px; border-bottom: 1px solid var(--accent-orange); border-left: 1px solid var(--accent-orange); }
+.hud-corner--br { bottom: 6px; right: 6px; border-bottom: 1px solid var(--accent-cyan); border-right: 1px solid var(--accent-cyan); }
+
+.hud-nav {
+  border-bottom-color: var(--border-hud) !important;
+  background: var(--bg-hud) !important;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(34, 211, 238, 0.06);
+}
+
+.hud-nav::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-orange), transparent);
+  opacity: 0.45;
+}
+
+.hud-nav .terminal-nav-item.active {
+  color: var(--accent-orange);
+  border-color: rgba(255, 107, 26, 0.45);
+  background: rgba(255, 107, 26, 0.1);
+  box-shadow: 0 0 14px rgba(255, 107, 26, 0.12), inset 0 0 12px rgba(34, 211, 238, 0.04);
+}
+
+.hud-nav .terminal-nav-item:hover:not(.active) {
+  color: var(--accent-cyan);
+  border-color: rgba(34, 211, 238, 0.25);
+  background: rgba(34, 211, 238, 0.05);
+}
+
+.timeline-hud::before {
+  background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-orange), transparent);
+}
+
+.timeline-hud .timeline-dot {
+  border: 2px solid var(--accent-cyan);
+  box-shadow: 0 0 14px rgba(34, 211, 238, 0.35), 0 0 8px rgba(255, 107, 26, 0.2);
+}
+
+.timeline-hud-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(34, 211, 238, 0.65);
+  margin-bottom: 12px;
+}
+
+.contact-panel {
+  padding-top: 36px !important;
+}
+
+.contact-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  margin-bottom: 12px;
+}
+
+.contact-headline {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.contact-sub {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.contact-social-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.contact-social-chip {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 8px 14px;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-hud);
+  border-radius: 6px;
+  background: rgba(34, 211, 238, 0.04);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.contact-social-chip:hover {
+  color: var(--accent-orange);
+  border-color: var(--border-glow);
+  box-shadow: 0 0 16px rgba(255, 107, 26, 0.15);
+}
+
+.hud-dock {
+  border-top-color: var(--border-hud) !important;
+  background: var(--bg-hud) !important;
+}
+
+.hud-dock .mobile-dock-item.active {
+  color: var(--accent-orange);
+  border-color: rgba(255, 107, 26, 0.4);
+  background: rgba(255, 107, 26, 0.1);
+  box-shadow: 0 0 14px rgba(255, 107, 26, 0.12);
+}
+
+.hud-sheet {
+  border-color: var(--border-hud) !important;
+  background: var(--bg-hud) !important;
+}
+
+.hud-sheet .mobile-sheet-item.active {
+  border-color: rgba(34, 211, 238, 0.35);
+  color: var(--accent-cyan);
+  background: rgba(34, 211, 238, 0.06);
+}

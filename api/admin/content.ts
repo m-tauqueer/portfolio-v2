@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { requireAdmin } from '../lib/auth.js'
 import { getSupabaseAdmin } from '../lib/supabaseAdmin.js'
 import { handleGet, handlePut } from '../lib/contentHandlers.js'
+import { parseJsonBody } from '../lib/parseBody.js'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!requireAdmin(req)) {
@@ -17,7 +18,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (req.method === 'PUT') {
-      return res.status(200).json(await handlePut(supabase, section, req.body))
+      return res.status(200).json(await handlePut(supabase, section, parseJsonBody(req)))
     }
 
     return res.status(405).json({ error: 'Method not allowed' })

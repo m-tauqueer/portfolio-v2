@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion'
 import type { Project } from '../../types/portfolio'
+import { GlitchText } from './GlitchText'
 import { ProjectCardVisual } from './ProjectCardVisual'
 
 interface ProjectCardProps {
@@ -8,21 +8,24 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, index }: ProjectCardProps) {
+  const indexLabel = String(index + 1).padStart(2, '0')
+
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
-      whileHover={{ scale: 1.02, y: -4 }}
-      className="project-card group"
-    >
+    <article className="project-card group">
+      <span className="project-card-index" aria-hidden="true">{indexLabel}</span>
+      <span className="project-card-corner project-card-corner--tl" aria-hidden="true" />
+      <span className="project-card-corner project-card-corner--tr" aria-hidden="true" />
+      <span className="project-card-corner project-card-corner--bl" aria-hidden="true" />
+      <span className="project-card-corner project-card-corner--br" aria-hidden="true" />
+
       <ProjectCardVisual project={project} />
+
       <div className="project-card-body">
-        <h3 className="text-accent font-mono font-semibold text-lg group-hover:text-cyan-400 transition">
-          {project.name}
+        <p className="project-card-slug">// {project.slug}</p>
+        <h3 className="project-card-title">
+          <GlitchText as="span" intensity="low">{project.name}</GlitchText>
         </h3>
-        <p className="text-muted text-sm mt-2 line-clamp-3">{project.description}</p>
+        <p className="project-card-desc">{project.description}</p>
         <div className="flex flex-wrap gap-2 mt-3">
           {project.stack.map((tech) => (
             <span key={tech} className="tech-tag">{tech}</span>
@@ -41,6 +44,6 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           )}
         </div>
       </div>
-    </motion.article>
+    </article>
   )
 }

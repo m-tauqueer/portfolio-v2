@@ -1,0 +1,201 @@
+.intro-screen {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-intro);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-void);
+  overflow: hidden;
+}
+
+.intro-screen--exit {
+  animation: intro-fade-out 0.7s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes intro-fade-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.intro-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.intro-scanlines {
+  display: none;
+}
+
+.intro-skip {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: rgba(10, 8, 18, 0.8);
+  border: 1px solid var(--border-hud);
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.intro-skip:hover {
+  color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.2);
+}
+
+.intro-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 0 24px;
+  max-width: 720px;
+}
+
+.intro-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 5vw, 2.75rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  position: relative;
+  opacity: 0;
+}
+
+.intro-name--visible {
+  animation: intro-name-in 0.6s ease forwards;
+}
+
+.intro-name--visible::before,
+.intro-name--visible::after {
+  display: none;
+}
+
+@keyframes intro-name-in {
+  0% { opacity: 0; transform: scale(0.96); filter: blur(4px); }
+  60% { opacity: 1; transform: scale(1.01); filter: blur(0); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes intro-glitch {
+  0%, 94%, 100% { transform: translate(0); }
+  95% { transform: translate(-2px, 1px); }
+  97% { transform: translate(2px, -1px); }
+}
+
+@keyframes intro-chroma-l {
+  0%, 90%, 100% { transform: translate(0); }
+  92% { transform: translate(-3px, 0); }
+}
+
+@keyframes intro-chroma-r {
+  0%, 88%, 100% { transform: translate(0); }
+  90% { transform: translate(3px, 0); }
+}
+
+.intro-role {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 2.5vw, 0.95rem);
+  color: var(--accent-orange);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0;
+}
+
+.intro-role--visible {
+  animation: intro-line-in 0.4s ease forwards;
+}
+
+.intro-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 28px;
+  opacity: 0;
+}
+
+.intro-tags--visible {
+  animation: intro-line-in 0.5s ease forwards;
+}
+
+.intro-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #c8f5ff;
+  padding: 7px 14px;
+  border: 1px solid rgba(34, 211, 238, 0.5);
+  background: rgba(34, 211, 238, 0.12);
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.15);
+}
+
+.intro-stack {
+  margin-top: 24px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+  opacity: 0;
+}
+
+.intro-stack--visible {
+  animation: intro-line-in 0.5s ease forwards;
+}
+
+.intro-stack span {
+  color: var(--term-green-bright);
+}
+
+@keyframes intro-line-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.intro-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-orange), var(--accent-cyan));
+  box-shadow: 0 0 12px rgba(255, 107, 26, 0.5);
+  animation: intro-progress var(--intro-duration) linear forwards;
+}
+
+@keyframes intro-progress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+@media (max-width: 640px) {
+  .intro-skip {
+    top: 14px;
+    right: 14px;
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-screen {
+    display: none;
+  }
+}

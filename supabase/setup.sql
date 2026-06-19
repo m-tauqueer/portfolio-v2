@@ -72,13 +72,16 @@ CREATE POLICY "public read skills" ON portfolio_skills FOR SELECT USING (true);
 CREATE POLICY "public read education" ON portfolio_education FOR SELECT USING (true);
 CREATE POLICY "public read projects" ON portfolio_projects FOR SELECT USING (true);
 
+-- Upgrade existing DBs (safe to re-run)
+ALTER TABLE portfolio_projects ADD COLUMN IF NOT EXISTS image_url TEXT DEFAULT '';
+
 -- Seed: Profile
 INSERT INTO portfolio_profile (id, name, title, bio, location, email, resume_url, interests)
 VALUES (
   1,
   'Mohammad Tauqueer',
   'Software Engineer',
-  'I''m Tauqueer — Bangalore engineer, CS @ Scaler × BITS Pilani. Currently on the engineering side at Metacognition, where I shipped Engram — an FPA that gives AI agents memory that actually sticks. Side quests: meet-bot, Staygrad, and writing Unix shells in Java because POSIX won''t implement itself. Cinematography, OSC & Reinforce Club eat whatever RAM is left.',
+  'I''m Tauqueer — Bangalore engineer, CS @ BITS Pilani. Currently on the engineering side at Metacognition, where I shipped Engram — an FPA that gives AI agents memory that actually sticks. Side quests: meet-bot, Staygrad, and writing Unix shells in Java because POSIX won''t implement itself. Cinematography, OSC & Reinforce Club eat whatever RAM is left.',
   'Bangalore, Karnataka',
   'tauqueer655@gmail.com',
   '',
@@ -110,10 +113,9 @@ INSERT INTO portfolio_skills (category, items, sort_order) VALUES
 -- Seed: Education
 DELETE FROM portfolio_education;
 INSERT INTO portfolio_education (degree, school, duration, description, sort_order) VALUES
-  ('Bachelor''s in Computer Science', 'Scaler School of Technology', 'Aug 2025 - Jul 2029', 'Currently pursuing my primary CS degree with focus on practical software development, algorithms, and modern technologies.', 1),
-  ('Bachelor''s in Computer Science', 'BITS Pilani', 'Aug 2025 - Jul 2029', 'Pursuing a parallel degree to strengthen my theoretical foundation and expand my academic credentials in computer science.', 2),
-  ('12th Grade (PCM)', 'Luthra Higher Secondary School', 'Completed 2025', 'Completed higher secondary education with Science stream, building foundation in Mathematics and Physics.', 3),
-  ('10th Grade', 'Crescent Public School', 'Completed 2023', '96.8% - Outstanding Academic Performance', 4);
+  ('Bachelor''s in Computer Science', 'BITS Pilani', 'Aug 2025 - Jul 2029', 'Pursuing a CS degree with focus on practical software development, algorithms, and modern technologies.', 1),
+  ('12th Grade (PCM)', 'Luthra Higher Secondary School', 'Completed 2025', 'Completed higher secondary education with Science stream, building foundation in Mathematics and Physics.', 2),
+  ('10th Grade', 'Crescent Public School', 'Completed 2023', '96.8% - Outstanding Academic Performance', 3);
 
 -- Experience table (run if upgrading)
 CREATE TABLE IF NOT EXISTS portfolio_experience (
@@ -141,5 +143,5 @@ INSERT INTO portfolio_projects (slug, name, description, stack, github_url, demo
   ('engram', 'Engram', 'Meeting memory FPA — AI dashboard for transcripts, action items, calendar sync, and episodic recall. Shipped at Metacognition.', ARRAY['TypeScript', 'React', 'AI'], 'https://github.com/m-tauqueer/meet-bot', 'https://engram.tauq.me', '/projects/engram.png', true, 1),
   ('staygrad', 'Staygrad', 'Student platform to discover, compare, and book verified hostels & PGs near coaching hubs in Kota.', ARRAY['JavaScript', 'React'], 'https://github.com/m-tauqueer/staygrad', 'https://www.staygrad.in', '/projects/staygrad.png', true, 2),
   ('shell', 'CodeCrafters Shell', 'POSIX-compliant Unix shell built in Java — builtins, pipes, redirections, and process control.', ARRAY['Java'], 'https://github.com/m-tauqueer/codecrafters-shell-java', '', '', true, 3),
-  ('tracker', 'Crypto Price Tracker', 'A web application that displays real-time cryptocurrency prices with interactive charts and price history for top 10 cryptocurrencies.', ARRAY['HTML', 'CSS', 'JavaScript'], 'https://github.com/m-tauqueer/tracker', '', false, 4),
-  ('survivals-edge', 'Survivals Edge', 'A voxel-based survival island created during a hackathon with custom terrain, trees, and a house.', ARRAY['GDScript', 'Godot'], 'https://github.com/m-tauqueer/Survivals_edge', '', false, 5);
+  ('tracker', 'Crypto Price Tracker', 'A web application that displays real-time cryptocurrency prices with interactive charts and price history for top 10 cryptocurrencies.', ARRAY['HTML', 'CSS', 'JavaScript'], 'https://github.com/m-tauqueer/tracker', '', '', false, 4),
+  ('survivals-edge', 'Survivals Edge', 'A voxel-based survival island created during a hackathon with custom terrain, trees, and a house.', ARRAY['GDScript', 'Godot'], 'https://github.com/m-tauqueer/Survivals_edge', '', '', false, 5);

@@ -1,0 +1,178 @@
+@import "./tokens.css";
+
+.admin-page {
+  min-height: 100vh;
+  background: var(--bg-void);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.admin-card {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-hud);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.admin-header {
+  border-bottom: 1px solid var(--border-hud);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-hud);
+}
+
+.admin-header h1 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-orange);
+}
+
+.admin-header p,
+.admin-muted {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.admin-sidebar {
+  width: 12rem;
+  border-right: 1px solid var(--border-hud);
+  padding: 1rem;
+  background: rgba(4, 3, 8, 0.6);
+}
+
+.admin-tab {
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-tab:hover {
+  color: var(--text-primary);
+  background: rgba(34, 211, 238, 0.05);
+  border-color: var(--border-glass);
+}
+
+.admin-tab.active {
+  color: var(--accent-orange);
+  background: rgba(255, 107, 26, 0.1);
+  border-color: rgba(255, 107, 26, 0.35);
+}
+
+.admin-field {
+  background: rgba(8, 12, 20, 0.95);
+  border: 1px solid var(--border-glass);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  width: 100%;
+}
+
+.admin-field:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.12);
+}
+
+.admin-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+  text-transform: capitalize;
+}
+
+.admin-btn {
+  background: linear-gradient(135deg, var(--accent-orange), var(--accent-orange-glow));
+  color: #08060c;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: opacity 0.2s, box-shadow 0.2s;
+}
+
+.admin-btn:hover:not(:disabled) {
+  box-shadow: 0 0 20px rgba(255, 107, 26, 0.35);
+}
+
+.admin-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-btn-ghost {
+  color: var(--accent-cyan);
+  background: transparent;
+  border: none;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.admin-btn-ghost:hover {
+  color: var(--accent-orange);
+}
+
+.admin-link {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.admin-link:hover {
+  color: var(--accent-cyan);
+}
+
+.admin-block {
+  border: 1px solid var(--border-glass);
+  border-radius: 10px;
+  padding: 1rem;
+  background: rgba(8, 12, 20, 0.5);
+}
+
+.admin-toast-success {
+  background: rgba(22, 101, 52, 0.9);
+  color: var(--term-green-bright);
+}
+
+.admin-toast-error {
+  background: rgba(127, 29, 29, 0.9);
+  color: #fca5a5;
+}
+
+.admin-section-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.admin-error {
+  color: var(--error);
+  font-size: 0.85rem;
+}
+
+.admin-danger {
+  color: var(--error);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+}

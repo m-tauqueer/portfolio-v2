@@ -3,7 +3,7 @@
     "id": 1,
     "name": "Mohammad Tauqueer",
     "title": "Software Engineer",
-    "bio": "I'm Tauqueer — Bangalore engineer, CS @ Scaler × BITS Pilani. Currently on the engineering side at Metacognition, where I shipped Engram — an FPA that gives AI agents memory that actually sticks. Side quests: meet-bot, Staygrad, and writing Unix shells in Java because POSIX won't implement itself. Cinematography, OSC & Reinforce Club eat whatever RAM is left.",
+    "bio": "I'm Tauqueer — Bangalore engineer, CS @ BITS Pilani. Currently on the engineering side at Metacognition, where I shipped Engram — an FPA that gives AI agents memory that actually sticks. Side quests: meet-bot, Staygrad, and writing Unix shells in Java because POSIX won't implement itself. Cinematography, OSC & Reinforce Club eat whatever RAM is left.",
     "location": "Bangalore, Karnataka",
     "email": "tauqueer655@gmail.com",
     "resume_url": "",
@@ -21,10 +21,9 @@
     { "id": 3, "category": "Tools", "items": ["Git/GitHub", "Docker"], "sort_order": 3 }
   ],
   "education": [
-    { "id": 1, "degree": "Bachelor's in Computer Science", "school": "Scaler School of Technology", "duration": "Aug 2025 - Jul 2029", "description": "Currently pursuing my primary CS degree with focus on practical software development, algorithms, and modern technologies.", "sort_order": 1 },
-    { "id": 2, "degree": "Bachelor's in Computer Science", "school": "BITS Pilani", "duration": "Aug 2025 - Jul 2029", "description": "Pursuing a parallel degree to strengthen my theoretical foundation and expand my academic credentials in computer science.", "sort_order": 2 },
-    { "id": 3, "degree": "12th Grade (PCM)", "school": "Luthra Higher Secondary School", "duration": "Completed 2025", "description": "Completed higher secondary education with Science stream, building foundation in Mathematics and Physics.", "sort_order": 3 },
-    { "id": 4, "degree": "10th Grade", "school": "Crescent Public School", "duration": "Completed 2023", "description": "96.8% - Outstanding Academic Performance", "sort_order": 4 }
+    { "id": 1, "degree": "Bachelor's in Computer Science", "school": "BITS Pilani", "duration": "Aug 2025 - Jul 2029", "description": "Pursuing a CS degree with focus on practical software development, algorithms, and modern technologies.", "sort_order": 1 },
+    { "id": 2, "degree": "12th Grade (PCM)", "school": "Luthra Higher Secondary School", "duration": "Completed 2025", "description": "Completed higher secondary education with Science stream, building foundation in Mathematics and Physics.", "sort_order": 2 },
+    { "id": 3, "degree": "10th Grade", "school": "Crescent Public School", "duration": "Completed 2023", "description": "96.8% - Outstanding Academic Performance", "sort_order": 3 }
   ],
   "experience": [
     { "id": 1, "company": "Metacognition", "role": "Engineering Intern", "duration": "2025 – Present", "description": "Engineering side at getmetacognition.com — shipped Engram, an FPA that gives AI agents episodic memory. Full-stack across frontend, backend, and product features.", "sort_order": 1 },

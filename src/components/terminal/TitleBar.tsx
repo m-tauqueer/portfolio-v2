@@ -6,7 +6,7 @@ export function TitleBar() {
         <span className="traffic-light yellow" />
         <span className="traffic-light green" />
       </div>
-      <span className="title-text">tauqueer@tauq.me — cyber-shell</span>
+      <span className="title-text font-display">tauqueer@tauq.me — netrunner-shell</span>
       <div style={{ width: 54 }} />
     </div>
   )

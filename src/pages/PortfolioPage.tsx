@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
 import { motion } from 'framer-motion'
 import { usePortfolio } from '../hooks/usePortfolio'
+import { useIntroGate } from '../hooks/useIntroGate'
 import { useViewMode } from '../context/ViewModeContext'
 import { Terminal } from '../components/terminal/Terminal'
 import { TerminalNav } from '../components/layout/TerminalNav'
 import { OpenGuiButton } from '../components/layout/OpenGuiButton'
+import { IntroSequence } from '../components/intro/IntroSequence'
 import { WhoAmISection } from '../components/sections/WhoAmISection'
 import { JourneySection } from '../components/sections/JourneySection'
 import { ProjectsSection } from '../components/sections/ProjectsSection'
@@ -13,16 +14,30 @@ import { ContactSection } from '../components/sections/ContactSection'
 import type { CommandSideEffect } from '../commands/result'
 import { CyberBackground } from '../components/layout/CyberBackground'
 import { NoiseOverlay } from '../components/layout/NoiseOverlay'
+import { getDefaultViewMode } from '../lib/viewMode'
 import '../styles/sections.css'
 import '../styles/cyber.css'
+import '../styles/hud.css'
 
 const SECTION_IDS = ['about', 'journey', 'projects', 'contact']
 
 export function PortfolioPage() {
   const { data, loading, source } = usePortfolio()
+  const { introDone, completeIntro } = useIntroGate()
   const { mode, openGui, openTerminal, scrollToSection } = useViewMode()
   const [activeSection, setActiveSection] = useState('about')
-  const [embedSlot, setEmbedSlot] = useState<HTMLDivElement | null>(null)
+
+  const handleIntroComplete = useCallback(() => {
+    completeIntro()
+    if (getDefaultViewMode() === 'gui') openGui()
+    else openTerminal()
+  }, [completeIntro, openGui, openTerminal])
+
+  useEffect(() => {
+    if (!introDone) return
+    if (getDefaultViewMode() === 'gui') openGui()
+    else openTerminal()
+  }, [introDone, openGui, openTerminal])
 
   const handleSideEffect = useCallback((effect: CommandSideEffect) => {
     if (effect.type === 'mode') {
@@ -63,6 +78,15 @@ export function PortfolioPage() {
     return () => observers.forEach((o) => o.disconnect())
   }, [isGui, data])
 
+  if (!introDone) {
+    return (
+      <IntroSequence
+        data={data}
+        onComplete={handleIntroComplete}
+      />
+    )
+  }
+
   const terminalProps = {
     portfolio: data,
     loading,
@@ -81,7 +105,7 @@ export function PortfolioPage() {
 
   return (
     <div className={`portfolio-page ${isGui ? 'gui-mode' : 'terminal-mode'}`}>
-      <CyberBackground />
+      <CyberBackground enabled={introDone} />
       <NoiseOverlay />
 
       {isGui ? (
@@ -95,17 +119,20 @@ export function PortfolioPage() {
             {data && (
               <>
                 <div className="parallax-grid" />
-                <WhoAmISection data={data} onTerminalSlot={setEmbedSlot} />
+                <WhoAmISection
+                  data={data}
+                  terminal={
+                    <div className="about-terminal-embed">
+                      {terminal}
+                    </div>
+                  }
+                />
                 <JourneySection data={data} />
                 <ProjectsSection data={data} />
                 <ContactSection data={data} />
               </>
             )}
           </main>
-          {embedSlot && createPortal(
-            <div className="about-terminal-embed">{terminal}</div>,
-            embedSlot
-          )}
         </div>
       ) : (
         <motion.div

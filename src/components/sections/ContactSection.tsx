@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion'
 import type { PortfolioData } from '../../types/portfolio'
 import { SectionHeading } from '../ui/SectionHeading'
 import { MagneticButton } from '../ui/MagneticButton'
+import { ScrollReveal } from '../ui/ScrollReveal'
 
 interface ContactSectionProps {
   data: PortfolioData
@@ -14,40 +14,43 @@ export function ContactSection({ data }: ContactSectionProps) {
   return (
     <section id="contact" className="page-section page-contact">
       <div className="page-inner page-inner--narrow">
-        <SectionHeading title="// Contact" subtitle="let's connect" />
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="glass-panel mt-8 text-center"
-      >
-        <p className="text-muted mb-6">
-          Ready to collaborate or just want to say hi? Drop me a line.
-        </p>
-        <MagneticButton
-          onClick={() => window.open(`mailto:${profile.email}`, '_blank')}
-          className="contact-cta"
-        >
-          {profile.email}
-        </MagneticButton>
-        <div className="flex flex-wrap justify-center gap-4 mt-8">
-          {activeSocial.map((link) => (
-            <motion.a
-              key={link.id}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.05, color: '#ff6b1a' }}
-              className="social-link"
-            >
-              {link.label} →
-            </motion.a>
-          ))}
-        </div>
-      </motion.div>
-      <footer className="text-center text-muted text-xs font-mono mt-16 pb-8 opacity-50">
-        © {new Date().getFullYear()} {profile.name}. Built with React + Framer Motion.
-      </footer>
+        <SectionHeading title="// Contact" subtitle="open channel" />
+        <ScrollReveal className="glass-panel hud-panel contact-panel mt-8 text-center">
+          <span className="hud-corner hud-corner--tl" aria-hidden="true" />
+          <span className="hud-corner hud-corner--tr" aria-hidden="true" />
+          <span className="hud-corner hud-corner--bl" aria-hidden="true" />
+          <span className="hud-corner hud-corner--br" aria-hidden="true" />
+
+          <p className="contact-eyebrow">[ OPEN CHANNEL ]</p>
+          <h3 className="contact-headline font-display">Let&apos;s build something</h3>
+          <p className="contact-sub">
+            Engineering collabs, product work, or just a hello — my inbox is open.
+          </p>
+          <MagneticButton
+            onClick={() => window.open(`mailto:${profile.email}`, '_blank')}
+            className="contact-cta"
+          >
+            {profile.email}
+          </MagneticButton>
+          <div className="contact-social-grid">
+            {activeSocial.map((link) => (
+              <a
+                key={link.id}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-social-chip"
+              >
+                {link.label} →
+              </a>
+            ))}
+          </div>
+        </ScrollReveal>
+        <ScrollReveal delay={0.15}>
+          <footer className="text-center text-muted text-xs font-mono mt-16 pb-8 opacity-50">
+            © {new Date().getFullYear()} {profile.name} · netrunner shell v3
+          </footer>
+        </ScrollReveal>
       </div>
     </section>
   )

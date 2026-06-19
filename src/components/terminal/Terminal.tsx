@@ -6,6 +6,7 @@ import { BootSequence } from './BootSequence'
 import { useTerminal } from '../../hooks/useTerminal'
 import type { PortfolioData } from '../../types/portfolio'
 import type { CommandSideEffect } from '../../commands/result'
+import { useMobileViewport } from '../../hooks/useMobileViewport'
 import '../../styles/terminal.css'
 
 interface TerminalProps {
@@ -20,7 +21,9 @@ interface TerminalProps {
 }
 
 export function Terminal({ portfolio, loading, source, compact, floating, embedded, guiMode, onSideEffect }: TerminalProps) {
-  const [bootDone, setBootDone] = useState(false)
+  const [bootDone, setBootDone] = useState(Boolean(embedded))
+  const isMobile = useMobileViewport()
+  const inputCompact = Boolean(compact || embedded || isMobile)
   const { lines, input, setInput, submitCommand, navigateHistory, autocomplete, runCommand } = useTerminal(
     portfolio,
     guiMode ?? false,
@@ -57,7 +60,14 @@ export function Terminal({ portfolio, loading, source, compact, floating, embedd
           <BootSequence onComplete={() => setBootDone(true)} loading={loading} />
         ) : (
           <>
-            <TerminalOutput lines={lines} systemMessage={systemMessage} />
+            <TerminalOutput
+              lines={lines}
+              systemMessage={systemMessage}
+              portfolio={portfolio}
+              embedded={embedded}
+              guiMode={guiMode}
+              showWelcome={Boolean(portfolio)}
+            />
             <TerminalInput
               value={input}
               onChange={setInput}
@@ -66,6 +76,7 @@ export function Terminal({ portfolio, loading, source, compact, floating, embedd
               onHistoryDown={() => navigateHistory('down')}
               onTab={autocomplete}
               disabled={!portfolio}
+              compact={inputCompact}
             />
           </>
         )}

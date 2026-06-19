@@ -8,6 +8,7 @@ interface TerminalInputProps {
   onHistoryDown: () => void
   onTab: () => void
   disabled?: boolean
+  compact?: boolean
 }
 
 export function TerminalInput({
@@ -18,6 +19,7 @@ export function TerminalInput({
   onHistoryDown,
   onTab,
   disabled,
+  compact,
 }: TerminalInputProps) {
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -43,7 +45,7 @@ export function TerminalInput({
 
   return (
     <div className="terminal-input-row" onClick={() => inputRef.current?.focus()}>
-      <span className="prompt">tauqueer@portfolio:~$</span>
+      <span className="prompt">{compact ? 'tauq:~$' : 'tauqueer@portfolio:~$'}</span>
       <input
         ref={inputRef}
         className="terminal-input"

@@ -4,6 +4,19 @@ interface ProjectCardVisualProps {
   project: Project
 }
 
+function CyberOverlays() {
+  return (
+    <>
+      <div className="project-gradient-dark" aria-hidden="true" />
+      <div className="project-gradient-shift" aria-hidden="true" />
+      <div className="project-gradient-vignette" aria-hidden="true" />
+      <div className="project-card-scanlines" aria-hidden="true" />
+      <div className="project-card-noise" aria-hidden="true" />
+      <div className="project-card-chromatic" aria-hidden="true" />
+    </>
+  )
+}
+
 export function ProjectCardVisual({ project }: ProjectCardVisualProps) {
   const imageUrl = project.image_url
 
@@ -27,8 +40,7 @@ export function ProjectCardVisual({ project }: ProjectCardVisualProps) {
             <p><span className="ptp-prompt">$</span> <span className="ptp-cursor" /></p>
           </div>
         </div>
-        <div className="project-gradient-dark" aria-hidden="true" />
-        <div className="project-gradient-shift" aria-hidden="true" />
+        <CyberOverlays />
       </div>
     )
   }
@@ -37,9 +49,7 @@ export function ProjectCardVisual({ project }: ProjectCardVisualProps) {
     return (
       <div className="project-card-visual project-card-visual--image">
         <img src={imageUrl} alt={`${project.name} preview`} loading="lazy" />
-        <div className="project-gradient-dark" aria-hidden="true" />
-        <div className="project-gradient-shift" aria-hidden="true" />
-        <div className="project-gradient-vignette" aria-hidden="true" />
+        <CyberOverlays />
       </div>
     )
   }
@@ -49,8 +59,7 @@ export function ProjectCardVisual({ project }: ProjectCardVisualProps) {
       <span className="text-accent/30 text-4xl font-bold font-mono">
         {project.name.charAt(0)}
       </span>
-      <div className="project-gradient-dark" aria-hidden="true" />
-      <div className="project-gradient-shift" aria-hidden="true" />
+      <CyberOverlays />
     </div>
   )
 }

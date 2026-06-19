@@ -25,14 +25,17 @@ export function TerminalNav({ onNavigate, onOpenTerminal, activeSection }: Termi
 
   return (
     <>
-      <header className="site-nav">
+      <header className="site-nav hud-nav">
+        <span className="hud-corner hud-corner--tl" aria-hidden="true" />
+        <span className="hud-corner hud-corner--tr" aria-hidden="true" />
+
         <div className="site-nav-brand">
           <GlitchText as="span" className="site-nav-logo" intensity="low">
             tauqueer@tauq.me
           </GlitchText>
           <span className="site-nav-status">
             <span className="status-dot" />
-            online
+            engineer.online
           </span>
         </div>
 
@@ -59,7 +62,7 @@ export function TerminalNav({ onNavigate, onOpenTerminal, activeSection }: Termi
             whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(255,107,26,0.4)' }}
             whileTap={{ scale: 0.98 }}
           >
-            [ fullscreen ]
+            [ shell ]
           </motion.button>
 
           <button
@@ -67,7 +70,7 @@ export function TerminalNav({ onNavigate, onOpenTerminal, activeSection }: Termi
             className="site-nav-terminal-btn site-nav-terminal-btn--mobile"
             onClick={onOpenTerminal}
           >
-            [ fs ]
+            [ sh ]
           </button>
 
           <button
@@ -88,8 +91,7 @@ export function TerminalNav({ onNavigate, onOpenTerminal, activeSection }: Termi
         </div>
       </header>
 
-      {/* Mobile bottom dock — always visible */}
-      <nav className="mobile-nav-dock" aria-label="Section navigation">
+      <nav className="mobile-nav-dock hud-dock" aria-label="Section navigation">
         {NAV_ITEMS.map((item) => (
           <button
             key={item.id}
@@ -102,7 +104,6 @@ export function TerminalNav({ onNavigate, onOpenTerminal, activeSection }: Termi
         ))}
       </nav>
 
-      {/* Mobile menu overlay — section links */}
       <AnimatePresence>
         {menuOpen && (
           <>
@@ -114,7 +115,7 @@ export function TerminalNav({ onNavigate, onOpenTerminal, activeSection }: Termi
               onClick={() => setMenuOpen(false)}
             />
             <motion.div
-              className="mobile-nav-sheet"
+              className="mobile-nav-sheet hud-sheet"
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}

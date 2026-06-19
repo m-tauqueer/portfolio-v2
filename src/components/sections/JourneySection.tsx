@@ -1,31 +1,42 @@
-import { motion } from 'framer-motion'
+import type { ReactNode } from 'react'
 import type { PortfolioData } from '../../types/portfolio'
 import { SectionHeading } from '../ui/SectionHeading'
+import { ScrollRevealGroup } from '../ui/ScrollReveal'
+import { AboutDetailsPanels } from './AboutDetailsPanels'
 
 interface JourneySectionProps {
   data: PortfolioData
 }
 
+function HudPanel({ children }: { children: ReactNode }) {
+  return (
+    <div className="glass-panel hud-panel timeline-panel ml-6">
+      <span className="hud-corner hud-corner--tl" aria-hidden="true" />
+      <span className="hud-corner hud-corner--br" aria-hidden="true" />
+      {children}
+    </div>
+  )
+}
+
 export function JourneySection({ data }: JourneySectionProps) {
-  const { education, experience } = data
+  const { profile, skills, education, experience } = data
 
   return (
     <section id="journey" className="page-section page-journey">
+      <div className="about-details-panels about-details-panels--mobile">
+        <SectionHeading title="// About" subtitle={`${profile.title} · ${profile.location.split(',')[0]}`} />
+        <AboutDetailsPanels profile={profile} skills={skills} />
+      </div>
+
       <div className="page-split page-split--journey">
         <div className="page-split-left">
           <SectionHeading title="// Education" subtitle="where I studied" />
-          <div className="timeline mt-6">
-            {education.map((edu, i) => (
-              <motion.div
-                key={edu.id}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="timeline-item"
-              >
+          <p className="timeline-hud-label">[ ACADEMIC.LOG ]</p>
+          <ScrollRevealGroup className="timeline timeline-hud mt-2" stagger={0.14}>
+            {education.map((edu) => (
+              <div key={edu.id} className="timeline-item">
                 <div className="timeline-dot" />
-                <div className="glass-panel timeline-panel ml-6">
+                <HudPanel>
                   <div className="flex flex-wrap items-center gap-2 mb-1">
                     <span className="type-badge education">education</span>
                     <span className="text-muted text-xs font-mono">{edu.duration}</span>
@@ -35,29 +46,23 @@ export function JourneySection({ data }: JourneySectionProps) {
                   {edu.description && (
                     <p className="text-muted text-sm mt-2">{edu.description}</p>
                   )}
-                </div>
-              </motion.div>
+                </HudPanel>
+              </div>
             ))}
-          </div>
+          </ScrollRevealGroup>
         </div>
 
         <div className="page-split-right">
           <SectionHeading title="// Experience" subtitle="where I've worked" />
-          <div className="timeline mt-6">
+          <p className="timeline-hud-label">[ WORK.LOG ]</p>
+          <ScrollRevealGroup className="timeline timeline-hud mt-2" stagger={0.14}>
             {experience.length === 0 ? (
               <p className="text-muted font-mono text-sm mt-4">No experience entries yet.</p>
             ) : (
-              experience.map((exp, i) => (
-                <motion.div
-                  key={exp.id}
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.5 }}
-                  className="timeline-item"
-                >
+              experience.map((exp) => (
+                <div key={exp.id} className="timeline-item">
                   <div className="timeline-dot" />
-                  <div className="glass-panel timeline-panel ml-6">
+                  <HudPanel>
                     <div className="flex flex-wrap items-center gap-2 mb-1">
                       <span className="type-badge experience">experience</span>
                       <span className="text-muted text-xs font-mono">{exp.duration}</span>
@@ -67,11 +72,11 @@ export function JourneySection({ data }: JourneySectionProps) {
                     {exp.description && (
                       <p className="text-muted text-sm mt-2">{exp.description}</p>
                     )}
-                  </div>
-                </motion.div>
+                  </HudPanel>
+                </div>
               ))
             )}
-          </div>
+          </ScrollRevealGroup>
         </div>
       </div>
     </section>

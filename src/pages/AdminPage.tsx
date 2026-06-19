@@ -1,6 +1,7 @@
 import { useState, useEffect, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import type { PortfolioData } from '../types/portfolio'
+import '../styles/admin.css'
 
 async function apiFetch(path: string, options?: RequestInit) {
   let res: Response
@@ -14,13 +15,25 @@ async function apiFetch(path: string, options?: RequestInit) {
       },
     })
   } catch {
-    throw new Error('Cannot reach API. Restart with: npm run dev')
+    throw new Error('Cannot reach server. Check deploy and env vars.')
   }
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: 'Request failed' }))
-    throw new Error(err.error ?? 'Request failed')
+
+  const text = await res.text()
+  let message = 'Request failed'
+
+  if (text) {
+    try {
+      const data = JSON.parse(text) as { error?: string }
+      message = data.error ?? message
+    } catch {
+      if (res.status === 404) message = 'Admin API not found — redeploy latest code'
+      else if (res.status === 401) message = 'Invalid password'
+      else message = `Server error (${res.status})`
+    }
   }
-  return res.json()
+
+  if (!res.ok) throw new Error(message)
+  return text ? JSON.parse(text) : null
 }
 
 export function AdminLogin() {
@@ -46,32 +59,32 @@ export function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-xl p-8">
-        <h1 className="text-2xl font-bold mb-2">Admin Panel</h1>
-        <p className="text-zinc-400 text-sm mb-6">Portfolio content management</p>
+    <div className="admin-page flex items-center justify-center p-4">
+      <div className="admin-card w-full max-w-md">
+        <h1 className="admin-section-title text-2xl mb-2">Admin Panel</h1>
+        <p className="admin-muted mb-6">Portfolio content management</p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm text-zinc-400 mb-1">Password</label>
+            <label className="admin-label">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-500"
+              className="admin-field"
               required
             />
           </div>
-          {error && <p className="text-red-400 text-sm">{error}</p>}
+          {error && <p className="admin-error">{error}</p>}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-orange-600 hover:bg-orange-500 disabled:opacity-50 text-white font-medium py-2 rounded-lg transition"
+            className="admin-btn w-full py-2"
           >
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-        <Link to="/" className="block text-center text-zinc-500 text-sm mt-4 hover:text-zinc-300">
-          ← Back to terminal
+        <Link to="/" className="admin-link block text-center mt-4">
+          ← Back to portfolio
         </Link>
       </div>
     </div>
@@ -121,7 +134,7 @@ export function AdminDashboard() {
 
   if (loading || !data) {
     return (
-      <div className="min-h-screen bg-zinc-950 text-zinc-100 flex items-center justify-center">
+      <div className="admin-page flex items-center justify-center">
         Loading...
       </div>
     )
@@ -130,31 +143,32 @@ export function AdminDashboard() {
   const tabs = ['profile', 'social', 'skills', 'education', 'experience', 'projects']
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100">
-      <header className="border-b border-zinc-800 px-6 py-4 flex items-center justify-between">
+    <div className="admin-page">
+      <header className="admin-header">
         <div>
-          <h1 className="text-xl font-bold">Portfolio Admin</h1>
-          <p className="text-zinc-500 text-sm">Edit terminal content</p>
+          <h1>Portfolio Admin</h1>
+          <p className="admin-muted">Edit portfolio content</p>
         </div>
         <div className="flex gap-3">
-          <Link to="/" className="text-zinc-400 hover:text-white text-sm">View Terminal</Link>
-          <button onClick={logout} className="text-zinc-400 hover:text-white text-sm">Logout</button>
+          <Link to="/" className="admin-link">View Portfolio</Link>
+          <button type="button" onClick={logout} className="admin-link">Logout</button>
         </div>
       </header>
 
       {toast && (
-        <div className={`fixed top-4 right-4 px-4 py-2 rounded-lg text-sm z-50 ${toast.type === 'success' ? 'bg-green-900 text-green-200' : 'bg-red-900 text-red-200'}`}>
+        <div className={`fixed top-4 right-4 px-4 py-2 rounded-lg text-sm z-50 ${toast.type === 'success' ? 'admin-toast-success' : 'admin-toast-error'}`}>
           {toast.msg}
         </div>
       )}
 
       <div className="flex">
-        <nav className="w-48 border-r border-zinc-800 p-4 space-y-1">
+        <nav className="admin-sidebar space-y-1">
           {tabs.map((tab) => (
             <button
               key={tab}
+              type="button"
               onClick={() => setActiveTab(tab)}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm capitalize transition ${activeTab === tab ? 'bg-orange-600/20 text-orange-400' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'}`}
+              className={`admin-tab ${activeTab === tab ? 'active' : ''}`}
             >
               {tab}
             </button>
@@ -191,35 +205,35 @@ function ProfileForm({ profile, onSave, saving }: { profile: PortfolioData['prof
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold">Profile</h2>
+      <h2 className="admin-section-title">Profile</h2>
       {(['name', 'title', 'location', 'email', 'resume_url'] as const).map((field) => (
         <div key={field}>
-          <label className="block text-sm text-zinc-400 mb-1 capitalize">{field.replace('_', ' ')}</label>
+          <label className="admin-label">{field.replace('_', ' ')}</label>
           <input
             value={form[field]}
             onChange={(e) => setForm({ ...form, [field]: e.target.value })}
-            className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm"
+            className="admin-field"
           />
         </div>
       ))}
       <div>
-        <label className="block text-sm text-zinc-400 mb-1">Bio</label>
+        <label className="admin-label">Bio</label>
         <textarea
           value={form.bio}
           onChange={(e) => setForm({ ...form, bio: e.target.value })}
           rows={5}
-          className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm"
+          className="admin-field"
         />
       </div>
       <div>
-        <label className="block text-sm text-zinc-400 mb-1">Interests (comma-separated)</label>
+        <label className="admin-label">Interests (comma-separated)</label>
         <input
           value={form.interests.join(', ')}
           onChange={(e) => setForm({ ...form, interests: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) })}
-          className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm"
+          className="admin-field"
         />
       </div>
-      <button onClick={() => onSave(form)} disabled={saving} className="bg-orange-600 hover:bg-orange-500 disabled:opacity-50 px-4 py-2 rounded-lg text-sm">
+      <button onClick={() => onSave(form)} disabled={saving} className="admin-btn">
         {saving ? 'Saving...' : 'Save Profile'}
       </button>
     </div>
@@ -240,20 +254,20 @@ function SocialForm({ social, onSave, saving }: { social: PortfolioData['social'
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold">Social Links</h2>
+      <h2 className="admin-section-title">Social Links</h2>
       {rows.map((row: PortfolioData['social'][0], i: number) => (
         <div key={row.id} className="grid grid-cols-3 gap-2 items-end">
-          <input placeholder="Platform" value={row.platform} onChange={(e) => update(i, 'platform', e.target.value)} className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
-          <input placeholder="Label" value={row.label} onChange={(e) => update(i, 'label', e.target.value)} className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
+          <input placeholder="Platform" value={row.platform} onChange={(e) => update(i, 'platform', e.target.value)} className="admin-field" />
+          <input placeholder="Label" value={row.label} onChange={(e) => update(i, 'label', e.target.value)} className="admin-field" />
           <div className="flex gap-2">
-            <input placeholder="URL" value={row.url} onChange={(e) => update(i, 'url', e.target.value)} className="flex-1 bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
-            <button onClick={() => remove(i)} className="text-red-400 text-sm px-2">×</button>
+            <input placeholder="URL" value={row.url} onChange={(e) => update(i, 'url', e.target.value)} className="admin-field flex-1" />
+            <button type="button" onClick={() => remove(i)} className="admin-danger px-2">×</button>
           </div>
         </div>
       ))}
       <div className="flex gap-2">
-        <button onClick={add} className="text-orange-400 text-sm">+ Add link</button>
-        <button onClick={() => onSave(rows)} disabled={saving} className="bg-orange-600 hover:bg-orange-500 disabled:opacity-50 px-4 py-2 rounded-lg text-sm ml-auto">
+        <button type="button" onClick={add} className="admin-btn-ghost">+ Add link</button>
+        <button onClick={() => onSave(rows)} disabled={saving} className="admin-btn ml-auto">
           {saving ? 'Saving...' : 'Save Social'}
         </button>
       </div>
@@ -278,16 +292,16 @@ function SkillsForm({ skills, onSave, saving }: { skills: PortfolioData['skills'
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold">Skills</h2>
+      <h2 className="admin-section-title">Skills</h2>
       {rows.map((row: PortfolioData['skills'][0], i: number) => (
         <div key={row.id} className="space-y-2">
-          <input placeholder="Category" value={row.category} onChange={(e) => update(i, 'category', e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
-          <input placeholder="Items (comma-separated)" value={row.items.join(', ')} onChange={(e) => update(i, 'items', e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
+          <input placeholder="Category" value={row.category} onChange={(e) => update(i, 'category', e.target.value)} className="admin-field" />
+          <input placeholder="Items (comma-separated)" value={row.items.join(', ')} onChange={(e) => update(i, 'items', e.target.value)} className="admin-field" />
         </div>
       ))}
       <div className="flex gap-2">
-        <button onClick={add} className="text-orange-400 text-sm">+ Add category</button>
-        <button onClick={() => onSave(rows)} disabled={saving} className="bg-orange-600 hover:bg-orange-500 disabled:opacity-50 px-4 py-2 rounded-lg text-sm ml-auto">
+        <button type="button" onClick={add} className="admin-btn-ghost">+ Add category</button>
+        <button onClick={() => onSave(rows)} disabled={saving} className="admin-btn ml-auto">
           {saving ? 'Saving...' : 'Save Skills'}
         </button>
       </div>
@@ -305,21 +319,25 @@ function EducationForm({ education, onSave, saving }: { education: PortfolioData
   }
 
   const add = () => setRows([...rows, { id: Date.now(), degree: '', school: '', duration: '', description: '', sort_order: rows.length + 1 }])
+  const remove = (i: number) => setRows(rows.filter((_: PortfolioData['education'][0], idx: number) => idx !== i))
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold">Education</h2>
+      <h2 className="admin-section-title">Education</h2>
       {rows.map((row: PortfolioData['education'][0], i: number) => (
-        <div key={row.id} className="border border-zinc-800 rounded-lg p-4 space-y-2">
-          <input placeholder="Degree" value={row.degree} onChange={(e) => update(i, 'degree', e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
-          <input placeholder="School" value={row.school} onChange={(e) => update(i, 'school', e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
-          <input placeholder="Duration" value={row.duration} onChange={(e) => update(i, 'duration', e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
-          <textarea placeholder="Description" value={row.description} onChange={(e) => update(i, 'description', e.target.value)} rows={2} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
+        <div key={row.id} className="admin-block space-y-2">
+          <div className="flex justify-end">
+            <button type="button" onClick={() => remove(i)} className="admin-danger px-2" title="Delete entry">×</button>
+          </div>
+          <input placeholder="Degree" value={row.degree} onChange={(e) => update(i, 'degree', e.target.value)} className="admin-field" />
+          <input placeholder="School" value={row.school} onChange={(e) => update(i, 'school', e.target.value)} className="admin-field" />
+          <input placeholder="Duration" value={row.duration} onChange={(e) => update(i, 'duration', e.target.value)} className="admin-field" />
+          <textarea placeholder="Description" value={row.description} onChange={(e) => update(i, 'description', e.target.value)} rows={2} className="admin-field" />
         </div>
       ))}
       <div className="flex gap-2">
-        <button onClick={add} className="text-orange-400 text-sm">+ Add entry</button>
-        <button onClick={() => onSave(rows)} disabled={saving} className="bg-orange-600 hover:bg-orange-500 disabled:opacity-50 px-4 py-2 rounded-lg text-sm ml-auto">
+        <button type="button" onClick={add} className="admin-btn-ghost">+ Add entry</button>
+        <button onClick={() => onSave(rows)} disabled={saving} className="admin-btn ml-auto">
           {saving ? 'Saving...' : 'Save Education'}
         </button>
       </div>
@@ -337,21 +355,25 @@ function ExperienceForm({ experience, onSave, saving }: { experience: PortfolioD
   }
 
   const add = () => setRows([...rows, { id: Date.now(), company: '', role: '', duration: '', description: '', sort_order: rows.length + 1 }])
+  const remove = (i: number) => setRows(rows.filter((_: PortfolioData['experience'][0], idx: number) => idx !== i))
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold">Experience</h2>
+      <h2 className="admin-section-title">Experience</h2>
       {rows.map((row: PortfolioData['experience'][0], i: number) => (
-        <div key={row.id} className="border border-zinc-800 rounded-lg p-4 space-y-2">
-          <input placeholder="Company" value={row.company} onChange={(e) => update(i, 'company', e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
-          <input placeholder="Role" value={row.role} onChange={(e) => update(i, 'role', e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
-          <input placeholder="Duration" value={row.duration} onChange={(e) => update(i, 'duration', e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
-          <textarea placeholder="Description" value={row.description} onChange={(e) => update(i, 'description', e.target.value)} rows={2} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
+        <div key={row.id} className="admin-block space-y-2">
+          <div className="flex justify-end">
+            <button type="button" onClick={() => remove(i)} className="admin-danger px-2" title="Delete entry">×</button>
+          </div>
+          <input placeholder="Company" value={row.company} onChange={(e) => update(i, 'company', e.target.value)} className="admin-field" />
+          <input placeholder="Role" value={row.role} onChange={(e) => update(i, 'role', e.target.value)} className="admin-field" />
+          <input placeholder="Duration" value={row.duration} onChange={(e) => update(i, 'duration', e.target.value)} className="admin-field" />
+          <textarea placeholder="Description" value={row.description} onChange={(e) => update(i, 'description', e.target.value)} rows={2} className="admin-field" />
         </div>
       ))}
       <div className="flex gap-2">
-        <button onClick={add} className="text-orange-400 text-sm">+ Add experience</button>
-        <button onClick={() => onSave(rows)} disabled={saving} className="bg-orange-600 hover:bg-orange-500 disabled:opacity-50 px-4 py-2 rounded-lg text-sm ml-auto">
+        <button type="button" onClick={add} className="admin-btn-ghost">+ Add experience</button>
+        <button onClick={() => onSave(rows)} disabled={saving} className="admin-btn ml-auto">
           {saving ? 'Saving...' : 'Save Experience'}
         </button>
       </div>
@@ -369,20 +391,24 @@ function ProjectsForm({ projects, onSave, saving }: { projects: PortfolioData['p
   }
 
   const add = () => setRows([...rows, { id: Date.now(), slug: '', name: '', description: '', stack: [], github_url: '', demo_url: '', featured: false, sort_order: rows.length + 1 }])
+  const remove = (i: number) => setRows(rows.filter((_: PortfolioData['projects'][0], idx: number) => idx !== i))
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold">Projects</h2>
+      <h2 className="admin-section-title">Projects</h2>
       {rows.map((row: PortfolioData['projects'][0], i: number) => (
-        <div key={row.id} className="border border-zinc-800 rounded-lg p-4 space-y-2">
-          <div className="grid grid-cols-2 gap-2">
-            <input placeholder="Slug" value={row.slug} onChange={(e) => update(i, 'slug', e.target.value)} className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
-            <input placeholder="Name" value={row.name} onChange={(e) => update(i, 'name', e.target.value)} className="bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
+        <div key={row.id} className="admin-block space-y-2">
+          <div className="flex justify-end">
+            <button type="button" onClick={() => remove(i)} className="admin-danger px-2" title="Delete project">×</button>
           </div>
-          <textarea placeholder="Description" value={row.description} onChange={(e) => update(i, 'description', e.target.value)} rows={2} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
-          <input placeholder="Stack (comma-separated)" value={row.stack.join(', ')} onChange={(e) => update(i, 'stack', e.target.value.split(',').map((s) => s.trim()).filter(Boolean))} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
-          <input placeholder="GitHub URL" value={row.github_url} onChange={(e) => update(i, 'github_url', e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
-          <input placeholder="Demo URL" value={row.demo_url} onChange={(e) => update(i, 'demo_url', e.target.value)} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-sm" />
+          <div className="grid grid-cols-2 gap-2">
+            <input placeholder="Slug" value={row.slug} onChange={(e) => update(i, 'slug', e.target.value)} className="admin-field" />
+            <input placeholder="Name" value={row.name} onChange={(e) => update(i, 'name', e.target.value)} className="admin-field" />
+          </div>
+          <textarea placeholder="Description" value={row.description} onChange={(e) => update(i, 'description', e.target.value)} rows={2} className="admin-field" />
+          <input placeholder="Stack (comma-separated)" value={row.stack.join(', ')} onChange={(e) => update(i, 'stack', e.target.value.split(',').map((s) => s.trim()).filter(Boolean))} className="admin-field" />
+          <input placeholder="GitHub URL" value={row.github_url} onChange={(e) => update(i, 'github_url', e.target.value)} className="admin-field" />
+          <input placeholder="Demo URL" value={row.demo_url} onChange={(e) => update(i, 'demo_url', e.target.value)} className="admin-field" />
           <label className="flex items-center gap-2 text-sm">
             <input type="checkbox" checked={row.featured} onChange={(e) => update(i, 'featured', e.target.checked)} />
             Featured (top 3)
@@ -390,8 +416,8 @@ function ProjectsForm({ projects, onSave, saving }: { projects: PortfolioData['p
         </div>
       ))}
       <div className="flex gap-2">
-        <button onClick={add} className="text-orange-400 text-sm">+ Add project</button>
-        <button onClick={() => onSave(rows)} disabled={saving} className="bg-orange-600 hover:bg-orange-500 disabled:opacity-50 px-4 py-2 rounded-lg text-sm ml-auto">
+        <button type="button" onClick={add} className="admin-btn-ghost">+ Add project</button>
+        <button onClick={() => onSave(rows)} disabled={saving} className="admin-btn ml-auto">
           {saving ? 'Saving...' : 'Save Projects'}
         </button>
       </div>

@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { requireAdmin } from '../lib/auth'
-import { getSupabaseAdmin } from '../lib/supabaseAdmin'
-import { handleGet, handlePut } from '../lib/contentHandlers'
+import { requireAdmin } from '../lib/auth.js'
+import { getSupabaseAdmin } from '../lib/supabaseAdmin.js'
+import { handleGet, handlePut } from '../lib/contentHandlers.js'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!requireAdmin(req)) {

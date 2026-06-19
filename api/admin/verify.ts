@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { createAdminToken } from '../lib/auth'
+import { createAdminToken } from '../lib/auth.js'
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -18,9 +18,10 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const token = createAdminToken(password)
+  const secure = process.env.VERCEL === '1' ? '; Secure' : ''
   res.setHeader(
     'Set-Cookie',
-    `admin_token=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=86400`
+    `admin_token=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=86400${secure}`
   )
 
   return res.status(200).json({ ok: true })

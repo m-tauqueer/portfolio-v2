@@ -13,27 +13,27 @@ export function projectsCommand(ctx: CommandContext): TerminalLine[] {
   const title = showAll ? 'ALL PROJECTS' : 'FEATURED PROJECTS'
 
   return [
-    line([{ text: title, className: 'text-[#ff8c00] font-bold' }]),
-    line([{ text: '─'.repeat(50), className: 'text-[#008f11]' }]),
+    line([{ text: title, className: 't-orange font-bold' }]),
+    line([{ text: '─'.repeat(50), className: 't-dim' }]),
     line([
-      { text: 'NAME'.padEnd(22), className: 'text-[#ff8c00]' },
-      { text: 'STACK'.padEnd(16), className: 'text-[#ff8c00]' },
-      { text: 'STATUS', className: 'text-[#ff8c00]' },
+      { text: 'NAME'.padEnd(22), className: 't-orange' },
+      { text: 'STACK'.padEnd(16), className: 't-orange' },
+      { text: 'STATUS', className: 't-orange' },
     ]),
     ...list.map((p) =>
       line([
-        { text: p.name.padEnd(22), className: 'text-[#00ff41]' },
-        { text: p.stack.join(', ').padEnd(16), className: 'text-[#008f11]' },
+        { text: p.name.padEnd(22), className: 't-green' },
+        { text: p.stack.join(', ').padEnd(16), className: 't-dim' },
         {
           text: p.demo_url ? 'live demo' : 'active',
-          className: 'text-[#00ff41]/70',
+          className: 't-green opacity-70',
         },
       ])
     ),
     line([
-      { text: '\nTip: ', className: 'text-[#008f11]' },
-      { text: 'project <slug>', className: 'text-[#ff8c00]' },
-      { text: ' for details', className: 'text-[#008f11]' },
+      { text: '\nTip: ', className: 't-dim' },
+      { text: 'project <slug>', className: 't-orange' },
+      { text: ' for details', className: 't-dim' },
     ]),
   ]
 }
@@ -44,7 +44,7 @@ export function projectCommand(ctx: CommandContext): TerminalLine[] {
     return [
       {
         id: crypto.randomUUID(),
-        parts: [{ text: 'Usage: project <slug>', className: 'text-[#ff4444]' }],
+        parts: [{ text: 'Usage: project <slug>', className: 't-error' }],
         type: 'error',
       },
     ]
@@ -55,7 +55,7 @@ export function projectCommand(ctx: CommandContext): TerminalLine[] {
     return [
       {
         id: crypto.randomUUID(),
-        parts: [{ text: `Project not found: ${slug}`, className: 'text-[#ff4444]' }],
+        parts: [{ text: `Project not found: ${slug}`, className: 't-error' }],
         type: 'error',
       },
     ]
@@ -63,20 +63,20 @@ export function projectCommand(ctx: CommandContext): TerminalLine[] {
 
   const lines: TerminalLine[] = [
     line([
-      { text: project.name, className: 'text-[#ff8c00] font-bold' },
-      { text: ` — ${project.description}`, className: 'text-[#00ff41]' },
+      { text: project.name, className: 't-orange font-bold' },
+      { text: ` — ${project.description}`, className: 't-green' },
     ]),
     line([
-      { text: 'Stack: ', className: 'text-[#ff8c00]' },
-      { text: project.stack.join(', '), className: 'text-[#00ff41]' },
+      { text: 'Stack: ', className: 't-orange' },
+      { text: project.stack.join(', '), className: 't-green' },
     ]),
   ]
 
   if (project.github_url) {
     lines.push(
       line([
-        { text: '→ ', className: 'text-[#008f11]' },
-        { text: project.github_url, className: 'text-[#ff8c00] underline', href: project.github_url },
+        { text: '→ ', className: 't-dim' },
+        { text: project.github_url, className: 't-orange underline', href: project.github_url },
       ])
     )
   }
@@ -84,8 +84,8 @@ export function projectCommand(ctx: CommandContext): TerminalLine[] {
   if (project.demo_url) {
     lines.push(
       line([
-        { text: '→ ', className: 'text-[#008f11]' },
-        { text: project.demo_url, className: 'text-[#ff8c00] underline', href: project.demo_url },
+        { text: '→ ', className: 't-dim' },
+        { text: project.demo_url, className: 't-orange underline', href: project.demo_url },
       ])
     )
   }

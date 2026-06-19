@@ -30,10 +30,10 @@ export function neofetchCommand(ctx: CommandContext): TerminalLine[] {
   return [
     ...asciiLines.map((ascii, i) =>
       line([
-        { text: ascii.padEnd(24), className: 'text-[#ff8c00]' },
-        { text: info[i] ?? '', className: 'text-[#00ff41]' },
+        { text: ascii.padEnd(24), className: 't-orange' },
+        { text: info[i] ?? '', className: 't-green' },
       ])
     ),
-    ...info.slice(asciiLines.length).map((text) => line([{ text: `                        ${text}`, className: 'text-[#00ff41]' }])),
+    ...info.slice(asciiLines.length).map((text) => line([{ text: `                        ${text}`, className: 't-green' }])),
   ]
 }

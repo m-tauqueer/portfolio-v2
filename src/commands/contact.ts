@@ -9,20 +9,20 @@ export function contactCommand(ctx: CommandContext): TerminalLine[] {
   const activeSocial = social.filter((s) => s.url)
 
   return [
-    line([{ text: 'Contact', className: 'text-[#ff8c00] font-bold' }]),
-    line([{ text: '─'.repeat(50), className: 'text-[#008f11]' }]),
+    line([{ text: 'Contact', className: 't-orange font-bold' }]),
+    line([{ text: '─'.repeat(50), className: 't-dim' }]),
     line([
-      { text: 'email: ', className: 'text-[#ff8c00]' },
+      { text: 'email: ', className: 't-orange' },
       {
         text: profile.email,
-        className: 'text-[#00ff41] underline',
+        className: 't-green underline',
         href: `mailto:${profile.email}`,
       },
     ]),
     ...activeSocial.map((s) =>
       line([
-        { text: `${s.platform}: `, className: 'text-[#ff8c00]' },
-        { text: s.url, className: 'text-[#00ff41] underline', href: s.url },
+        { text: `${s.platform}: `, className: 't-orange' },
+        { text: s.url, className: 't-green underline', href: s.url },
       ])
     ),
   ]
@@ -32,13 +32,13 @@ export function socialCommand(ctx: CommandContext): TerminalLine[] {
   const activeSocial = ctx.portfolio.social.filter((s) => s.url)
 
   if (activeSocial.length === 0) {
-    return [line([{ text: 'No social links set yet.', className: 'text-[#008f11]' }])]
+    return [line([{ text: 'No social links set yet.', className: 't-dim' }])]
   }
 
   return activeSocial.map((s) =>
     line([
-      { text: `${s.label}: `, className: 'text-[#ff8c00]' },
-      { text: s.url, className: 'text-[#00ff41] underline', href: s.url },
+      { text: `${s.label}: `, className: 't-orange' },
+      { text: s.url, className: 't-green underline', href: s.url },
     ])
   )
 }
@@ -50,7 +50,7 @@ export function resumeCommand(ctx: CommandContext): TerminalLine[] {
     return [
       {
         id: crypto.randomUUID(),
-        parts: [{ text: 'Resume not set yet. Check back soon.', className: 'text-[#008f11]' }],
+        parts: [{ text: 'Resume not set yet. Check back soon.', className: 't-dim' }],
         type: 'output',
       },
     ]
@@ -60,8 +60,8 @@ export function resumeCommand(ctx: CommandContext): TerminalLine[] {
 
   return [
     line([
-      { text: 'Opening resume: ', className: 'text-[#ff8c00]' },
-      { text: url, className: 'text-[#00ff41] underline', href: url },
+      { text: 'Opening resume: ', className: 't-orange' },
+      { text: url, className: 't-green underline', href: url },
     ]),
   ]
 }

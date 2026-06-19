@@ -6,16 +6,16 @@ function line(parts: TerminalLine['parts']): TerminalLine {
 
 export function educationCommand(ctx: CommandContext): TerminalLine[] {
   return [
-    line([{ text: 'Education', className: 'text-[#ff8c00] font-bold' }]),
-    line([{ text: '─'.repeat(50), className: 'text-[#008f11]' }]),
+    line([{ text: 'Education', className: 't-orange font-bold' }]),
+    line([{ text: '─'.repeat(50), className: 't-dim' }]),
     ...ctx.portfolio.education.flatMap((edu) => [
       line([
-        { text: edu.degree, className: 'text-[#ff8c00]' },
-        { text: ` @ ${edu.school}`, className: 'text-[#00ff41]' },
+        { text: edu.degree, className: 't-orange' },
+        { text: ` @ ${edu.school}`, className: 't-green' },
       ]),
-      line([{ text: `  ${edu.duration}`, className: 'text-[#008f11]' }]),
+      line([{ text: `  ${edu.duration}`, className: 't-dim' }]),
       ...(edu.description
-        ? [line([{ text: `  ${edu.description}`, className: 'text-[#00ff41]/80' }])]
+        ? [line([{ text: `  ${edu.description}`, className: 't-green opacity-80' }])]
         : []),
       line([{ text: '', className: '' }]),
     ]),

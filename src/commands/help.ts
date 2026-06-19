@@ -24,12 +24,12 @@ export function helpCommand(_ctx: import('./types').CommandContext): import('./t
   }
 
   return [
-    line([{ text: 'Available commands:', className: 'text-[#ff8c00]' }]),
+    line([{ text: 'Available commands:', className: 't-orange' }]),
     ...commands.map(([name, alias, desc]) =>
       line([
-        { text: `  ${name.padEnd(22)}`, className: 'text-[#ff8c00]' },
-        { text: alias ? `(${alias}) ` : '        ', className: 'text-[#008f11]' },
-        { text: desc, className: 'text-[#00ff41]' },
+        { text: `  ${name.padEnd(22)}`, className: 't-orange' },
+        { text: alias ? `(${alias}) ` : '        ', className: 't-dim' },
+        { text: desc, className: 't-green' },
       ])
     ),
   ]

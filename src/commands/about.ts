@@ -8,8 +8,8 @@ export function whoamiCommand(ctx: CommandContext): TerminalLine[] {
   const { profile } = ctx.portfolio
   return [
     line([
-      { text: profile.name, className: 'text-[#ff8c00]' },
-      { text: ` — ${profile.title}`, className: 'text-[#00ff41]' },
+      { text: profile.name, className: 't-orange' },
+      { text: ` — ${profile.title}`, className: 't-green' },
     ]),
   ]
 }
@@ -17,8 +17,8 @@ export function whoamiCommand(ctx: CommandContext): TerminalLine[] {
 export function aboutCommand(ctx: CommandContext): TerminalLine[] {
   const { profile } = ctx.portfolio
   return [
-    line([{ text: profile.bio, className: 'text-[#00ff41]' }]),
-    line([{ text: '\nInterests:', className: 'text-[#ff8c00]' }]),
-    line([{ text: `  ${profile.interests.join(' · ')}`, className: 'text-[#008f11]' }]),
+    line([{ text: profile.bio, className: 't-green' }]),
+    line([{ text: '\nInterests:', className: 't-orange' }]),
+    line([{ text: `  ${profile.interests.join(' · ')}`, className: 't-dim' }]),
   ]
 }

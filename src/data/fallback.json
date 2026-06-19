@@ -3,7 +3,7 @@
     "id": 1,
     "name": "Mohammad Tauqueer",
     "title": "Software Engineer",
-    "bio": "Yo, I'm Tauqueer — a CS undergrad at Scaler & BITS Pilani, based in Bangalore. I build full-stack tools, mess with shells in Java, and ship stuff like Staygrad and meet-bot. When I'm not coding, you'll find me behind a camera or hanging with OSC and Reinforce Club.",
+    "bio": "I'm Tauqueer — Bangalore engineer, CS @ Scaler × BITS Pilani. Currently on the engineering side at Metacognition, where I shipped Engram — an FPA that gives AI agents memory that actually sticks. Side quests: meet-bot, Staygrad, and writing Unix shells in Java because POSIX won't implement itself. Cinematography, OSC & Reinforce Club eat whatever RAM is left.",
     "location": "Bangalore, Karnataka",
     "email": "tauqueer655@gmail.com",
     "resume_url": "",
@@ -27,8 +27,8 @@
     { "id": 4, "degree": "10th Grade", "school": "Crescent Public School", "duration": "Completed 2023", "description": "96.8% - Outstanding Academic Performance", "sort_order": 4 }
   ],
   "experience": [
-    { "id": 1, "company": "Company TBD", "role": "Software Engineering Intern", "duration": "2026", "description": "Building and shipping features across the stack. Details coming soon.", "sort_order": 1 },
-    { "id": 2, "company": "Startup TBD", "role": "Developer Intern", "duration": "2025", "description": "Worked on product features and developer tooling. Details coming soon.", "sort_order": 2 }
+    { "id": 1, "company": "Metacognition", "role": "Engineering Intern", "duration": "2025 – Present", "description": "Engineering side at getmetacognition.com — shipped Engram, an FPA that gives AI agents episodic memory. Full-stack across frontend, backend, and product features.", "sort_order": 1 },
+    { "id": 2, "company": "Metacognition", "role": "DevRel (prev.)", "duration": "2025", "description": "Developer relations before moving to engineering — community, docs, and getting builders hooked on memory-native AI.", "sort_order": 2 }
   ],
   "projects": [
     { "id": 1, "slug": "meet-bot", "name": "meet-bot", "description": "TypeScript meeting assistant — captures live audio, queues jobs, and processes transcripts with AI.", "stack": ["TypeScript"], "github_url": "https://github.com/m-tauqueer/meet-bot", "demo_url": "", "featured": true, "sort_order": 1 },

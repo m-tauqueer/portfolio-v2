@@ -6,16 +6,16 @@ function line(parts: TerminalLine['parts']): TerminalLine {
 
 export function experienceCommand(ctx: CommandContext): TerminalLine[] {
   return [
-    line([{ text: 'Experience', className: 'text-[#ff8c00] font-bold' }]),
-    line([{ text: '─'.repeat(50), className: 'text-[#008f11]' }]),
+    line([{ text: 'Experience', className: 't-orange font-bold' }]),
+    line([{ text: '─'.repeat(50), className: 't-dim' }]),
     ...ctx.portfolio.experience.flatMap((exp) => [
       line([
-        { text: exp.role, className: 'text-[#ff8c00]' },
-        { text: ` @ ${exp.company}`, className: 'text-[#00ff41]' },
+        { text: exp.role, className: 't-orange' },
+        { text: ` @ ${exp.company}`, className: 't-green' },
       ]),
-      line([{ text: `  ${exp.duration}`, className: 'text-[#008f11]' }]),
+      line([{ text: `  ${exp.duration}`, className: 't-dim' }]),
       ...(exp.description
-        ? [line([{ text: `  ${exp.description}`, className: 'text-[#00ff41]/80' }])]
+        ? [line([{ text: `  ${exp.description}`, className: 't-green opacity-80' }])]
         : []),
       line([{ text: '', className: '' }]),
     ]),

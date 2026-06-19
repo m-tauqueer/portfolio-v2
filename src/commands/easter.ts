@@ -16,7 +16,7 @@ export function easterEggCommand(ctx: CommandContext): TerminalLine[] {
   if (cmd === 'sudo' || input.startsWith('sudo')) {
     return [{
       id: crypto.randomUUID(),
-      parts: [{ text: "Nice try. You don't have root here.", className: 'text-[#ff8c00]' }],
+      parts: [{ text: "Nice try. You don't have root here.", className: 't-orange' }],
       type: 'output',
     }]
   }
@@ -24,7 +24,7 @@ export function easterEggCommand(ctx: CommandContext): TerminalLine[] {
   if (cmd === 'vim' || cmd === 'nano') {
     return [{
       id: crypto.randomUUID(),
-      parts: [{ text: "You are now in vim. Just kidding. Type 'exit' or Ctrl+C won't save you either.", className: 'text-[#ff8c00]' }],
+      parts: [{ text: "You are now in vim. Just kidding. Type 'exit' or Ctrl+C won't save you either.", className: 't-orange' }],
       type: 'output',
     }]
   }
@@ -33,12 +33,12 @@ export function easterEggCommand(ctx: CommandContext): TerminalLine[] {
     return [
       {
         id: crypto.randomUUID(),
-        parts: [{ text: '⚠ WARNING: Deleting entire filesystem...', className: 'text-[#ff4444]' }],
+        parts: [{ text: '⚠ WARNING: Deleting entire filesystem...', className: 't-error' }],
         type: 'error',
       },
       {
         id: crypto.randomUUID(),
-        parts: [{ text: 'Just kidding. Your portfolio is safe.', className: 'text-[#00ff41]' }],
+        parts: [{ text: 'Just kidding. Your portfolio is safe.', className: 't-green' }],
         type: 'success',
       },
     ]
@@ -48,14 +48,14 @@ export function easterEggCommand(ctx: CommandContext): TerminalLine[] {
     const message = ctx.args.slice(1).join(' ') || 'moo'
     const border = '-'.repeat(message.length + 2)
     return [
-      { id: crypto.randomUUID(), parts: [{ text: ` ${border} `, className: 'text-[#00ff41]' }], type: 'output' },
-      { id: crypto.randomUUID(), parts: [{ text: `< ${message} >`, className: 'text-[#00ff41]' }], type: 'output' },
-      { id: crypto.randomUUID(), parts: [{ text: ` ${border} `, className: 'text-[#00ff41]' }], type: 'output' },
-      { id: crypto.randomUUID(), parts: [{ text: '        \\   ^__^', className: 'text-[#ff8c00]' }], type: 'output' },
-      { id: crypto.randomUUID(), parts: [{ text: '         \\  (oo)\\_______', className: 'text-[#ff8c00]' }], type: 'output' },
-      { id: crypto.randomUUID(), parts: [{ text: '            (__)\\       )\\/\\', className: 'text-[#ff8c00]' }], type: 'output' },
-      { id: crypto.randomUUID(), parts: [{ text: '                ||----w |', className: 'text-[#ff8c00]' }], type: 'output' },
-      { id: crypto.randomUUID(), parts: [{ text: '                ||     ||', className: 'text-[#ff8c00]' }], type: 'output' },
+      { id: crypto.randomUUID(), parts: [{ text: ` ${border} `, className: 't-green' }], type: 'output' },
+      { id: crypto.randomUUID(), parts: [{ text: `< ${message} >`, className: 't-green' }], type: 'output' },
+      { id: crypto.randomUUID(), parts: [{ text: ` ${border} `, className: 't-green' }], type: 'output' },
+      { id: crypto.randomUUID(), parts: [{ text: '        \\   ^__^', className: 't-orange' }], type: 'output' },
+      { id: crypto.randomUUID(), parts: [{ text: '         \\  (oo)\\_______', className: 't-orange' }], type: 'output' },
+      { id: crypto.randomUUID(), parts: [{ text: '            (__)\\       )\\/\\', className: 't-orange' }], type: 'output' },
+      { id: crypto.randomUUID(), parts: [{ text: '                ||----w |', className: 't-orange' }], type: 'output' },
+      { id: crypto.randomUUID(), parts: [{ text: '                ||     ||', className: 't-orange' }], type: 'output' },
     ]
   }
 
@@ -63,7 +63,7 @@ export function easterEggCommand(ctx: CommandContext): TerminalLine[] {
     const quote = FORTUNES[Math.floor(Math.random() * FORTUNES.length)]
     return [{
       id: crypto.randomUUID(),
-      parts: [{ text: quote, className: 'text-[#00ff41] italic' }],
+      parts: [{ text: quote, className: 't-green italic' }],
       type: 'output',
     }]
   }

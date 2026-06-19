@@ -77,7 +77,7 @@ VALUES (
   1,
   'Mohammad Tauqueer',
   'Software Engineer',
-  'Yo, I''m Tauqueer — a CS undergrad at Scaler & BITS Pilani, based in Bangalore. I build full-stack tools, mess with shells in Java, and ship stuff like Staygrad and meet-bot. When I''m not coding, you''ll find me behind a camera or hanging with OSC and Reinforce Club.',
+  'I''m Tauqueer — Bangalore engineer, CS @ Scaler × BITS Pilani. Currently on the engineering side at Metacognition, where I shipped Engram — an FPA that gives AI agents memory that actually sticks. Side quests: meet-bot, Staygrad, and writing Unix shells in Java because POSIX won''t implement itself. Cinematography, OSC & Reinforce Club eat whatever RAM is left.',
   'Bangalore, Karnataka',
   'tauqueer655@gmail.com',
   '',
@@ -131,8 +131,8 @@ CREATE POLICY "public read experience" ON portfolio_experience FOR SELECT USING 
 -- Seed: Experience
 DELETE FROM portfolio_experience;
 INSERT INTO portfolio_experience (company, role, duration, description, sort_order) VALUES
-  ('Company TBD', 'Software Engineering Intern', '2026', 'Building and shipping features across the stack. Details coming soon.', 1),
-  ('Startup TBD', 'Developer Intern', '2025', 'Worked on product features and developer tooling. Details coming soon.', 2);
+  ('Metacognition', 'Engineering Intern', '2025 – Present', 'Engineering side at getmetacognition.com — shipped Engram, an FPA that gives AI agents episodic memory. Full-stack across frontend, backend, and product features.', 1),
+  ('Metacognition', 'DevRel (prev.)', '2025', 'Developer relations before moving to engineering — community, docs, and getting builders hooked on memory-native AI.', 2);
 
 -- Seed: Projects
 DELETE FROM portfolio_projects;

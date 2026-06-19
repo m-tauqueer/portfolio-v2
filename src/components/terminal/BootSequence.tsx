@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 const BOOT_LINES = [
-  '[ OK ] Initializing portfolio-shell v1.0',
+  '[ OK ] Initializing tauq.me shell v2.0',
   '[ OK ] Loading Mohammad Tauqueer @ Bangalore',
-  '[ OK ] Matrix link established',
-  "       Type 'help' to get started",
+  '[ OK ] Neon uplink established — orange channel active',
+  "       Type 'help' or 'open gui' to explore",
 ]
 
 interface BootSequenceProps {

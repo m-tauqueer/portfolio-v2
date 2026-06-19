@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { GlitchText } from './GlitchText'
 
 interface SectionHeadingProps {
   title: string
@@ -10,7 +11,7 @@ export function SectionHeading({ title, subtitle }: SectionHeadingProps) {
 
   return (
     <div className="section-heading">
-      <h2 className="text-2xl md:text-3xl font-bold text-[#00ff41] mb-2">
+      <h2 className="text-2xl md:text-3xl font-bold mb-2">
         {letters.map((char, i) => (
           <motion.span
             key={i}
@@ -30,9 +31,9 @@ export function SectionHeading({ title, subtitle }: SectionHeadingProps) {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
-          className="text-[#008f11] text-sm font-mono"
+          className="text-muted text-sm font-mono"
         >
-          {subtitle}
+          <GlitchText intensity="low">{subtitle}</GlitchText>
         </motion.p>
       )}
     </div>

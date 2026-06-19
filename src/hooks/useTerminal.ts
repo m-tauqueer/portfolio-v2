@@ -10,8 +10,8 @@ function makeInputLine(command: string): TerminalLine {
   return {
     id: crypto.randomUUID(),
     parts: [
-      { text: `${PROMPT} `, className: 'text-[#ff8c00]' },
-      { text: command, className: 'command-text text-[#00ff41]' },
+      { text: `${PROMPT} `, className: 't-orange' },
+      { text: command, className: 'command-text t-green' },
     ],
     type: 'input',
   }
@@ -71,13 +71,13 @@ export function useTerminal(
       setLines((prev) => [
         ...prev,
         makeInputLine('history'),
-        { id: crypto.randomUUID(), parts: [{ text: 'No commands in history.', className: 'text-[#008f11]' }], type: 'output' },
+        { id: crypto.randomUUID(), parts: [{ text: 'No commands in history.', className: 't-dim' }], type: 'output' },
       ])
       return
     }
     const outputLines: TerminalLine[] = history.map((cmd, i) => ({
       id: crypto.randomUUID(),
-      parts: [{ text: `  ${i + 1}  ${cmd}`, className: 'text-[#00ff41]' }],
+      parts: [{ text: `  ${i + 1}  ${cmd}`, className: 't-green' }],
       type: 'output' as const,
     }))
     setLines((prev) => [...prev, makeInputLine('history'), ...outputLines])

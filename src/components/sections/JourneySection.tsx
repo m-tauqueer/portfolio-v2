@@ -7,52 +7,72 @@ interface JourneySectionProps {
 }
 
 export function JourneySection({ data }: JourneySectionProps) {
-  const timeline = [
-    ...data.education.map((e) => ({
-      id: `edu-${e.id}`,
-      type: 'education' as const,
-      title: e.degree,
-      org: e.school,
-      duration: e.duration,
-      description: e.description,
-    })),
-    ...data.experience.map((e) => ({
-      id: `exp-${e.id}`,
-      type: 'experience' as const,
-      title: e.role,
-      org: e.company,
-      duration: e.duration,
-      description: e.description,
-    })),
-  ]
+  const { education, experience } = data
 
   return (
-    <section id="journey" className="portfolio-section">
-      <SectionHeading title="// Journey" subtitle="education + experience" />
-      <div className="timeline mt-8">
-        {timeline.map((item, i) => (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1, duration: 0.5 }}
-            className="timeline-item"
-          >
-            <div className="timeline-dot" />
-            <div className="glass-panel p-5 ml-6">
-              <div className="flex flex-wrap items-center gap-2 mb-1">
-                <span className={`type-badge ${item.type}`}>{item.type}</span>
-                <span className="text-[#008f11] text-xs font-mono">{item.duration}</span>
-              </div>
-              <h3 className="text-[#ff8c00] font-mono font-semibold">{item.title}</h3>
-              <p className="text-[#00ff41] text-sm">{item.org}</p>
-              {item.description && (
-                <p className="text-[#00ff41]/60 text-sm mt-2">{item.description}</p>
-              )}
-            </div>
-          </motion.div>
-        ))}
+    <section id="journey" className="page-section page-journey">
+      <div className="page-split page-split--journey">
+        <div className="page-split-left">
+          <SectionHeading title="// Education" subtitle="where I studied" />
+          <div className="timeline mt-6">
+            {education.map((edu, i) => (
+              <motion.div
+                key={edu.id}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                className="timeline-item"
+              >
+                <div className="timeline-dot" />
+                <div className="glass-panel p-5 ml-6">
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <span className="type-badge education">education</span>
+                    <span className="text-muted text-xs font-mono">{edu.duration}</span>
+                  </div>
+                  <h3 className="text-accent font-mono font-semibold">{edu.degree}</h3>
+                  <p className="text-body text-sm">{edu.school}</p>
+                  {edu.description && (
+                    <p className="text-muted text-sm mt-2">{edu.description}</p>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        <div className="page-split-right">
+          <SectionHeading title="// Experience" subtitle="where I've worked" />
+          <div className="timeline mt-6">
+            {experience.length === 0 ? (
+              <p className="text-muted font-mono text-sm mt-4">No experience entries yet.</p>
+            ) : (
+              experience.map((exp, i) => (
+                <motion.div
+                  key={exp.id}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  className="timeline-item"
+                >
+                  <div className="timeline-dot" />
+                  <div className="glass-panel p-5 ml-6">
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <span className="type-badge experience">experience</span>
+                      <span className="text-muted text-xs font-mono">{exp.duration}</span>
+                    </div>
+                    <h3 className="text-accent font-mono font-semibold">{exp.role}</h3>
+                    <p className="text-body text-sm">{exp.company}</p>
+                    {exp.description && (
+                      <p className="text-muted text-sm mt-2">{exp.description}</p>
+                    )}
+                  </div>
+                </motion.div>
+              ))
+            )}
+          </div>
+        </div>
       </div>
     </section>
   )

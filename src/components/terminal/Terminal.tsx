@@ -13,11 +13,13 @@ interface TerminalProps {
   loading: boolean
   source: 'supabase' | 'fallback'
   compact?: boolean
+  floating?: boolean
+  embedded?: boolean
   guiMode?: boolean
   onSideEffect?: (effect: CommandSideEffect) => void
 }
 
-export function Terminal({ portfolio, loading, source, compact, guiMode, onSideEffect }: TerminalProps) {
+export function Terminal({ portfolio, loading, source, compact, floating, embedded, guiMode, onSideEffect }: TerminalProps) {
   const [bootDone, setBootDone] = useState(false)
   const { lines, input, setInput, submitCommand, navigateHistory, autocomplete, runCommand } = useTerminal(
     portfolio,
@@ -48,7 +50,7 @@ export function Terminal({ portfolio, loading, source, compact, guiMode, onSideE
       : undefined
 
   return (
-    <div className={`terminal-root ${compact ? 'terminal-compact' : ''}`}>
+    <div className={`terminal-root ${compact ? 'terminal-compact' : ''} ${floating ? 'terminal-floating' : ''} ${embedded ? 'terminal-embedded' : ''}`}>
       <div className="terminal-window">
         <TitleBar />
         {!bootDone || loading ? (

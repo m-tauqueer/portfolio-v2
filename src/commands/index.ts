@@ -30,13 +30,14 @@ const EASTER_COMMANDS = ['sudo', 'vim', 'nano', 'rm', 'cowsay', 'fortune']
 const SCROLL_MAP: Record<string, string> = {
   about: 'about',
   me: 'about',
+  whoami: 'about',
   skills: 'about',
   stack: 'about',
-  journey: 'journey',
   education: 'journey',
   edu: 'journey',
   experience: 'journey',
   exp: 'journey',
+  journey: 'journey',
   projects: 'projects',
   ls: 'projects',
   contact: 'contact',
@@ -58,7 +59,7 @@ export function executeCommand(input: string, portfolio: CommandContext['portfol
     return {
       lines: [{
         id: crypto.randomUUID(),
-        parts: [{ text: 'Opening GUI mode... scroll to explore ↓', className: 'text-[#ff8c00]' }],
+        parts: [{ text: 'Opening GUI mode... scroll to explore ↓', className: 't-orange' }],
         type: 'success',
       }],
       sideEffect: { type: 'mode', mode: 'gui' },
@@ -69,7 +70,7 @@ export function executeCommand(input: string, portfolio: CommandContext['portfol
     return {
       lines: [{
         id: crypto.randomUUID(),
-        parts: [{ text: 'Entering fullscreen terminal mode...', className: 'text-[#ff8c00]' }],
+        parts: [{ text: 'Entering fullscreen terminal mode...', className: 't-orange' }],
         type: 'success',
       }],
       sideEffect: { type: 'mode', mode: 'terminal' },
@@ -102,7 +103,7 @@ export function executeCommand(input: string, portfolio: CommandContext['portfol
           ...lines,
           {
             id: crypto.randomUUID(),
-            parts: [{ text: `↳ scrolling to ~/${scrollSection}`, className: 'text-[#008f11]' }],
+            parts: [{ text: `↳ scrolling to ~/${scrollSection}`, className: 't-dim' }],
             type: 'system',
           },
         ],
@@ -120,8 +121,8 @@ export function executeCommand(input: string, portfolio: CommandContext['portfol
       lines: [{
         id: crypto.randomUUID(),
         parts: [
-          { text: `command not found: ${command}. `, className: 'text-[#ff4444]' },
-          { text: "Type 'help' for available commands.", className: 'text-[#008f11]' },
+          { text: `command not found: ${command}. `, className: 't-error' },
+          { text: "Type 'help' for available commands.", className: 't-dim' },
         ],
         type: 'error',
       }],

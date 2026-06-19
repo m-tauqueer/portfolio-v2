@@ -51,6 +51,7 @@ export interface Project {
   stack: string[]
   github_url: string
   demo_url: string
+  image_url?: string
   featured: boolean
   sort_order: number
 }

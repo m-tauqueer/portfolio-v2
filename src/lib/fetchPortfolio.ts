@@ -1,10 +1,15 @@
 import fallbackData from '../data/fallback.json'
+import { enrichProjects } from './enrichProjects'
 import { supabase } from './supabase'
 import type { PortfolioData } from '../types/portfolio'
 
+function withEnrichedProjects(data: PortfolioData): PortfolioData {
+  return { ...data, projects: enrichProjects(data.projects) }
+}
+
 export async function fetchPortfolio(): Promise<{ data: PortfolioData; source: 'supabase' | 'fallback' }> {
   if (!supabase) {
-    return { data: fallbackData as PortfolioData, source: 'fallback' }
+    return { data: withEnrichedProjects(fallbackData as PortfolioData), source: 'fallback' }
   }
 
   try {
@@ -28,11 +33,11 @@ export async function fetchPortfolio(): Promise<{ data: PortfolioData; source: '
         skills: skillsRes.data ?? [],
         education: educationRes.data ?? [],
         experience: experienceRes.data ?? [],
-        projects: projectsRes.data ?? [],
+        projects: enrichProjects(projectsRes.data ?? []),
       },
       source: 'supabase',
     }
   } catch {
-    return { data: fallbackData as PortfolioData, source: 'fallback' }
+    return { data: withEnrichedProjects(fallbackData as PortfolioData), source: 'fallback' }
   }
 }

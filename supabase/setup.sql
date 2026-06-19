@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS portfolio_projects (
   stack       TEXT[] NOT NULL,
   github_url  TEXT DEFAULT '',
   demo_url    TEXT DEFAULT '',
+  image_url   TEXT DEFAULT '',
   featured    BOOLEAN DEFAULT false,
   sort_order  INT DEFAULT 0
 );
@@ -136,9 +137,9 @@ INSERT INTO portfolio_experience (company, role, duration, description, sort_ord
 
 -- Seed: Projects
 DELETE FROM portfolio_projects;
-INSERT INTO portfolio_projects (slug, name, description, stack, github_url, demo_url, featured, sort_order) VALUES
-  ('meet-bot', 'meet-bot', 'TypeScript meeting assistant — captures live audio, queues jobs, and processes transcripts with AI.', ARRAY['TypeScript'], 'https://github.com/m-tauqueer/meet-bot', '', true, 1),
-  ('staygrad', 'Staygrad', 'Student-focused platform to discover, compare, and book verified hostels and PG accommodations.', ARRAY['JavaScript'], 'https://github.com/m-tauqueer/staygrad', '', true, 2),
-  ('shell', 'CodeCrafters Shell', 'Building a Unix shell in Java (CodeCrafters challenge).', ARRAY['Java'], 'https://github.com/m-tauqueer/codecrafters-shell-java', '', true, 3),
+INSERT INTO portfolio_projects (slug, name, description, stack, github_url, demo_url, image_url, featured, sort_order) VALUES
+  ('engram', 'Engram', 'Meeting memory FPA — AI dashboard for transcripts, action items, calendar sync, and episodic recall. Shipped at Metacognition.', ARRAY['TypeScript', 'React', 'AI'], 'https://github.com/m-tauqueer/meet-bot', 'https://engram.tauq.me', '/projects/engram.png', true, 1),
+  ('staygrad', 'Staygrad', 'Student platform to discover, compare, and book verified hostels & PGs near coaching hubs in Kota.', ARRAY['JavaScript', 'React'], 'https://github.com/m-tauqueer/staygrad', 'https://www.staygrad.in', '/projects/staygrad.png', true, 2),
+  ('shell', 'CodeCrafters Shell', 'POSIX-compliant Unix shell built in Java — builtins, pipes, redirections, and process control.', ARRAY['Java'], 'https://github.com/m-tauqueer/codecrafters-shell-java', '', '', true, 3),
   ('tracker', 'Crypto Price Tracker', 'A web application that displays real-time cryptocurrency prices with interactive charts and price history for top 10 cryptocurrencies.', ARRAY['HTML', 'CSS', 'JavaScript'], 'https://github.com/m-tauqueer/tracker', '', false, 4),
   ('survivals-edge', 'Survivals Edge', 'A voxel-based survival island created during a hackathon with custom terrain, trees, and a house.', ARRAY['GDScript', 'Godot'], 'https://github.com/m-tauqueer/Survivals_edge', '', false, 5);

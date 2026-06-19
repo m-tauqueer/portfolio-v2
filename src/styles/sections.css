@@ -704,6 +704,183 @@
   background: linear-gradient(to bottom, transparent 50%, rgba(8, 6, 12, 0.85));
 }
 
+/* ── Project card visuals (gradient-shift aesthetic) ── */
+.project-card-visual {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  background: #0c0a10;
+}
+
+.project-card-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: brightness(0.82) saturate(0.95);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s ease;
+}
+
+.project-card:hover .project-card-visual img {
+  transform: scale(1.06);
+  filter: brightness(0.9) saturate(1.1);
+}
+
+.project-gradient-dark {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(8, 6, 12, 0.35) 0%, rgba(8, 6, 12, 0.55) 100%),
+    radial-gradient(ellipse at center, transparent 20%, rgba(8, 6, 12, 0.45) 100%);
+  z-index: 1;
+}
+
+.project-gradient-shift {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    125deg,
+    rgba(255, 107, 26, 0.45) 0%,
+    rgba(168, 85, 247, 0.35) 25%,
+    rgba(34, 211, 238, 0.3) 50%,
+    rgba(255, 107, 26, 0.4) 75%,
+    rgba(236, 72, 153, 0.35) 100%
+  );
+  background-size: 300% 300%;
+  mix-blend-mode: color;
+  opacity: 0.5;
+  z-index: 2;
+  animation: projectGradientShift 8s ease infinite;
+  transition: opacity 0.4s ease;
+}
+
+.project-card:hover .project-gradient-shift {
+  opacity: 0.65;
+  animation-duration: 4s;
+}
+
+.project-gradient-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(
+    to bottom,
+    rgba(8, 6, 12, 0.25) 0%,
+    rgba(8, 6, 12, 0.45) 45%,
+    rgba(8, 6, 12, 0.75) 75%,
+    rgba(8, 6, 12, 0.98) 100%
+  );
+}
+
+@keyframes projectGradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Terminal preview (shell project) */
+.project-card-visual--terminal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: radial-gradient(ellipse at 30% 20%, rgba(255, 107, 26, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(34, 211, 238, 0.06) 0%, transparent 50%),
+    #0a0810;
+}
+
+.ptp-window {
+  width: 100%;
+  max-width: 280px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 107, 26, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 24px rgba(255, 107, 26, 0.08);
+  position: relative;
+  z-index: 1;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.project-card:hover .ptp-window {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 32px rgba(255, 107, 26, 0.15);
+}
+
+.ptp-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ptp-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.ptp-dot.red { background: #ff5f57; }
+.ptp-dot.yellow { background: #febc2e; }
+.ptp-dot.green { background: #28c840; }
+
+.ptp-title {
+  margin-left: 6px;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.ptp-body {
+  padding: 12px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  line-height: 1.7;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.ptp-body p { margin: 0; }
+
+.ptp-prompt {
+  color: var(--accent-orange);
+  margin-right: 6px;
+}
+
+.ptp-out {
+  color: #39ff88;
+}
+
+.ptp-dim {
+  color: var(--text-muted);
+  padding-left: 14px;
+}
+
+.ptp-cursor {
+  display: inline-block;
+  width: 6px;
+  height: 12px;
+  background: var(--accent-orange);
+  vertical-align: middle;
+  animation: ptpBlink 1s step-end infinite;
+}
+
+@keyframes ptpBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.project-card-visual--fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, rgba(255, 107, 26, 0.06) 0%, transparent 70%);
+}
+
 .project-card-body { padding: 20px; }
 
 .tech-tag {
@@ -727,6 +904,16 @@
 .project-link:hover {
   color: var(--accent-cyan);
   text-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
+}
+
+.project-link--demo {
+  color: var(--accent-cyan);
+  opacity: 0.9;
+}
+
+.project-link--demo:hover {
+  color: var(--accent-orange);
+  text-shadow: 0 0 8px rgba(255, 107, 26, 0.4);
 }
 
 .contact-cta {

@@ -13,6 +13,7 @@ export function WhoAmISection({ data, onTerminalSlot }: WhoAmISectionProps) {
 
   return (
     <section id="about" className="page-section page-about">
+      <div className="about-hero-wrap">
       <div className="page-split page-split--about">
         <div className="page-split-left about-content">
           <SectionHeading title="// Who I Am" subtitle={`${profile.title} · ${profile.location}`} />
@@ -22,7 +23,7 @@ export function WhoAmISection({ data, onTerminalSlot }: WhoAmISectionProps) {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="glass-panel p-6 about-bio-panel"
+            className="glass-panel about-bio-panel"
           >
             <p className="text-body leading-relaxed">{profile.bio}</p>
             <div className="mt-4 flex flex-wrap gap-2">
@@ -37,7 +38,7 @@ export function WhoAmISection({ data, onTerminalSlot }: WhoAmISectionProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="glass-panel p-6 about-stack-panel"
+            className="glass-panel about-stack-panel"
           >
             <h3 className="text-accent font-mono text-sm mb-3">stack.init()</h3>
             <div className="flex flex-wrap gap-2">
@@ -71,6 +72,7 @@ export function WhoAmISection({ data, onTerminalSlot }: WhoAmISectionProps) {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.15 }}
         />
+      </div>
       </div>
     </section>
   )

@@ -173,7 +173,7 @@
 .terminal-embedded .terminal-output {
   font-size: 12px;
   line-height: 1.55;
-  padding: 12px 14px;
+  padding: 16px 18px;
 }
 
 .terminal-embedded .terminal-input-row { padding: 10px 14px; }

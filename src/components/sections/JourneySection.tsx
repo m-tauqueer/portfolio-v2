@@ -25,7 +25,7 @@ export function JourneySection({ data }: JourneySectionProps) {
                 className="timeline-item"
               >
                 <div className="timeline-dot" />
-                <div className="glass-panel p-5 ml-6">
+                <div className="glass-panel timeline-panel ml-6">
                   <div className="flex flex-wrap items-center gap-2 mb-1">
                     <span className="type-badge education">education</span>
                     <span className="text-muted text-xs font-mono">{edu.duration}</span>
@@ -57,7 +57,7 @@ export function JourneySection({ data }: JourneySectionProps) {
                   className="timeline-item"
                 >
                   <div className="timeline-dot" />
-                  <div className="glass-panel p-5 ml-6">
+                  <div className="glass-panel timeline-panel ml-6">
                     <div className="flex flex-wrap items-center gap-2 mb-1">
                       <span className="type-badge experience">experience</span>
                       <span className="text-muted text-xs font-mono">{exp.duration}</span>

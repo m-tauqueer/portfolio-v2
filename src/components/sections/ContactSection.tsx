@@ -19,7 +19,7 @@ export function ContactSection({ data }: ContactSectionProps) {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="glass-panel p-8 mt-8 text-center"
+        className="glass-panel mt-8 text-center"
       >
         <p className="text-muted mb-6">
           Ready to collaborate or just want to say hi? Drop me a line.
